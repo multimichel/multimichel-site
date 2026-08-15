@@ -150,6 +150,13 @@ a.row:hover .t{color:var(--orange)}
 .aside-note{margin-top:var(--space-32);font-family:var(--font-grotesk);font-size:var(--type-aside-size);color:var(--dim)}
 .aside-note-link{border-bottom:1.5px solid var(--orange)}
 
+/* ---------- portrait figure ----------
+   A vertical portrait must not be forced into the 16:9 landscape frame that
+   figure.full uses. Constrained width, left-aligned with the text column —
+   the canvas is left-oriented, so a centred portrait would fight it. */
+figure.portrait{margin:var(--space-72) 0 0;max-width:var(--portrait-w)}
+figure.portrait img{width:100%;height:auto;aspect-ratio:auto;object-fit:contain}
+
 /* ---------- prose (about) ---------- */
 .prose{max-width:var(--measure);font-family:var(--font-grotesk);font-size:var(--type-body-size);line-height:var(--type-body-leading);color:var(--slate)}
 .prose p+p{margin-top:var(--space-16)}

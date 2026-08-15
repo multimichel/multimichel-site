@@ -182,6 +182,7 @@
   --type-aside-size: 16px;
 
   /* About / contact surfaces — outside node 1:1988's scope. */
+  --portrait-w: 480px;     /* constrained width for a vertical portrait figure */
   --measure: 720px;        /* running prose measure (~70ch at 24px) */
   --measure-form: 560px;   /* form column — narrower than prose on purpose */
   --type-field-size: 20px; /* input text: large enough to feel authored, not admin */
