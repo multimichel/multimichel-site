@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — Michel Ferreira</title>
+<meta name="description" content="Speaking, workshops, mentoring, or just to say olá. Get in touch with Michel Ferreira.">
+<meta property="og:title" content="Contact — Michel Ferreira">
+<meta property="og:description" content="Speaking, workshops, mentoring, or just to say olá.">
+<link rel="stylesheet" href="tokens.css?v=18">
+<link rel="stylesheet" href="multimichel.css?v=18">
+<link rel="stylesheet" href="grid-overlay.css?v=18">
+</head>
+<body>
+
+<header class="site">
+  <a class="brand" href="index.html"><i></i>MICHEL FERREIRA</a>
+  <nav class="main">
+    <a href="index.html#work">WORK</a>
+    <a href="index.html#speaking">SPEAKING</a>
+    <a href="index.html#writing">WRITING</a>
+    <a href="index.html#media">MEDIA</a>
+    <a href="about.html">ABOUT</a>
+  </nav>
+</header>
+
+<div class="wrap">
+
+  <section class="hero">
+    <h1 class="display">Say olá</h1>
+    <div class="lede">
+      <p>Conferences, workshops, mentoring, or a question that doesn&rsquo;t fit anywhere else. I read everything and reply to most of it — in English or Portuguese.</p>
+    </div>
+  </section>
+
+  <section id="contact-form">
+    <div class="sechead"><i class="tab"></i><h2>Write to me</h2></div>
+
+    <form class="form" id="contact" novalidate>
+      <div class="field">
+        <label for="name">Your name</label>
+        <input id="name" name="name" type="text" autocomplete="name" required>
+        <p class="err" data-for="name" hidden>Please add your name.</p>
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" required>
+        <p class="err" data-for="email" hidden>That email doesn&rsquo;t look right.</p>
+      </div>
+
+      <div class="field">
+        <label for="topic">What&rsquo;s this about?</label>
+        <select id="topic" name="topic">
+          <option>Speaking or a workshop</option>
+          <option>Mentoring</option>
+          <option>The podcast</option>
+          <option>Something else</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="7" required></textarea>
+        <p class="err" data-for="message" hidden>Tell me a little more.</p>
+      </div>
+
+      <button class="submit" type="submit">Send it</button>
+      <p class="form-status" id="status" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <section id="elsewhere-contact">
+    <div class="sechead"><i class="tab"></i><h2>Or find me</h2></div>
+    <div class="rowlist">
+      <a class="row" href="mailto:michel@multimichel.com"><span class="t">michel@multimichel.com</span><span class="m">Email</span></a>
+      <a class="row" href="https://www.linkedin.com/in/michelpferreira/" target="_blank" rel="noopener"><span class="t">michelpferreira</span><span class="m">LinkedIn</span></a>
+      <a class="row" href="https://www.youtube.com/@multimichel" target="_blank" rel="noopener"><span class="t">@multimichel</span><span class="m">YouTube</span></a>
+      <a class="row" href="https://multimichel.medium.com/" target="_blank" rel="noopener"><span class="t">multimichel</span><span class="m">Medium</span></a>
+    </div>
+  </section>
+
+</div>
+
+<footer class="site">
+  <p class="fineprint">MULTIMICHEL © 1998–2026 MICHEL FERREIRA · SYDNEY, AUSTRALIA</p>
+  <p class="social">
+    <a class="fineprint" href="https://www.linkedin.com/in/michelpferreira/" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="fineprint" href="https://multimichel.medium.com/" target="_blank" rel="noopener">Medium</a>
+    <a class="fineprint" href="about.html">About</a>
+  </p>
+</footer>
+
+<script src="grid-overlay.js?v=18" defer></script>
+<script>
+(function(){
+  // ---------------------------------------------------------------------
+  // ENDPOINT — currently unset, so the form falls back to opening a mail
+  // client with everything pre-filled. Nothing is silently swallowed.
+  // To take real submissions: create a form at https://formspree.io and put
+  // its endpoint here, e.g. "https://formspree.io/f/xxxxxxxx".
+  // ---------------------------------------------------------------------
+  var ENDPOINT = "";
+  var FALLBACK_TO = "michel@multimichel.com";
+
+  var form = document.getElementById('contact');
+  var status = document.getElementById('status');
+
+  function fieldError(name, on){
+    var p = form.querySelector('.err[data-for="'+name+'"]');
+    if(p) p.hidden = !on;
+    var input = form.elements[name];
+    if(input) input.setAttribute('aria-invalid', on ? 'true' : 'false');
+  }
+
+  function validate(){
+    var ok = true;
+    var name = form.elements.name.value.trim();
+    var email = form.elements.email.value.trim();
+    var message = form.elements.message.value.trim();
+    fieldError('name', !name);       if(!name) ok = false;
+    var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    fieldError('email', !emailOk);   if(!emailOk) ok = false;
+    fieldError('message', !message); if(!message) ok = false;
+    return ok;
+  }
+
+  ['name','email','message'].forEach(function(n){
+    form.elements[n].addEventListener('input', function(){
+      if(form.elements[n].getAttribute('aria-invalid') === 'true') validate();
+    });
+  });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    status.className = 'form-status';
+    if(!validate()){
+      status.textContent = 'Have a look at the fields marked above.';
+      status.classList.add('is-error');
+      return;
+    }
+
+    var data = {
+      name: form.elements.name.value.trim(),
+      email: form.elements.email.value.trim(),
+      topic: form.elements.topic.value,
+      message: form.elements.message.value.trim()
+    };
+
+    if(!ENDPOINT){
+      // No backend wired yet — hand off to the user's mail client rather than
+      // pretending the message went somewhere.
+      var subject = encodeURIComponent(data.topic + ' — ' + data.name);
+      var body = encodeURIComponent(data.message + '\n\n— ' + data.name + '\n' + data.email);
+      window.location.href = 'mailto:' + FALLBACK_TO + '?subject=' + subject + '&body=' + body;
+      status.textContent = 'Opening your email app…';
+      return;
+    }
+
+    var btn = form.querySelector('.submit');
+    btn.disabled = true;
+    status.textContent = 'Sending…';
+
+    fetch(ENDPOINT, {
+      method: 'POST',
+      headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    }).then(function(res){
+      if(!res.ok) throw new Error(res.status);
+      form.reset();
+      status.textContent = 'Sent. I’ll get back to you.';
+      status.classList.add('is-ok');
+    }).catch(function(){
+      status.textContent = 'That didn’t send. Email me directly at ' + FALLBACK_TO + '.';
+      status.classList.add('is-error');
+    }).then(function(){
+      btn.disabled = false;
+    });
+  });
+})();
+</script>
+</body>
+</html>

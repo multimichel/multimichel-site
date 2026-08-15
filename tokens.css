@@ -1,0 +1,188 @@
+/* ============================================================
+   MultiMichel — Design Tokens
+   Source of truth: Figma node 1:1988 (Michel.com)
+   Every visual value in the codebase must reference these.
+   No hardcoded colors, sizes, fonts, or spacing anywhere else.
+   ============================================================ */
+
+/* Licensed originals, registered under the single family names the
+   --font-* tokens below point to. Each weight is a separate static
+   file, so weight is what selects between them — never rename a
+   family per-weight (that's what broke the "Agrandir Tight Black" /
+   "Family Heavy" / "Family Medium" split before this token file). */
+@font-face{font-family:"Agrandir";src:url("fonts/Agrandir-TightBlack.ttf") format("truetype");font-weight:900;font-display:swap}
+@font-face{font-family:"Family";src:url("fonts/family-heavy.ttf") format("truetype");font-weight:800;font-display:swap}
+@font-face{font-family:"Family";src:url("fonts/family-medium.ttf") format("truetype");font-weight:500;font-display:swap}
+@font-face{font-family:"Founders Grotesk";src:url("fonts/FoundersGrotesk-Regular.ttf") format("truetype");font-weight:400;font-display:swap}
+@font-face{font-family:"Founders Grotesk";src:url("fonts/FoundersGrotesk-Medium.ttf") format("truetype");font-weight:500;font-display:swap}
+@font-face{font-family:"Founders Grotesk";src:url("fonts/FoundersGrotesk-Bold.ttf") format("truetype");font-weight:700;font-display:swap}
+
+:root {
+
+  /* ---------- FONTS ----------
+     DECISION PENDING: licensed originals vs free stack.
+     Swap by changing these three lines only. Nothing else
+     in the codebase may name a font family directly.
+
+     Licensed originals:      Free replacements (Google Fonts):
+     --font-serif:  "Family"            → "Fraunces"
+     --font-grotesk: "Founders Grotesk" → "Hanken Grotesk"
+     --font-label:  "Agrandir"          → "Bricolage Grotesque"
+  */
+  --font-serif: "Family", "Fraunces", Georgia, serif;
+  --font-grotesk: "Founders Grotesk", "Hanken Grotesk", system-ui, sans-serif;
+  --font-label: "Agrandir", "Bricolage Grotesque", system-ui, sans-serif;
+
+  /* ---------- COLOR ---------- */
+  --paper: #F8F5F2;        /* page background — never pure white */
+  --slate: #33291D;        /* primary dark: hero, intro body */
+  --oak: #4A3A2A;          /* row metadata */
+  --dim: #5C5141;          /* navigation */
+  --ink: #1A1916;          /* row titles */
+  --ink-quote: #1C1A15;    /* quote */
+  --masthead: #2E2C29;     /* MICHEL FERREIRA */
+  --muted: #7A6D59;        /* section labels (WRITING, SPEAKING, WORK) */
+  --rule-light: #ECE8DF;   /* row separators */
+  --rule-strong: #C9C4B8;  /* link underlines */
+  --orange: #FF6C00;       /* the only orange. header block, section markers,
+                              CASE STUDY label, hovers. Use sparingly. */
+  --highlight: #F5C518;    /* hand-drawn quote highlight (verify against Figma) */
+
+  /* ---------- TYPE ---------- */
+  /* Masthead — label face, 900, uppercase */
+  --type-masthead-size: 24px;
+  --type-masthead-tracking: -0.096px;
+
+  /* Nav + section labels — label face, 900, uppercase */
+  --type-label-size: 13px;
+  --type-label-leading: 1.5;
+  --type-label-tracking: 1.3px;
+
+  /* Hero — serif Heavy/Black */
+  --type-hero-size: 148px;
+  --type-hero-tracking: -2.664px;
+
+  /* Intro body — grotesk Regular (+ Bold for emphasis) */
+  --type-body-size: 24px;
+  --type-body-leading: 35.5px;
+
+  /* Editorial row title — serif Medium */
+  --type-row-title-size: 18px;
+  --type-row-title-leading: 28.8px;
+
+  /* Editorial row metadata — grotesk Medium */
+  --type-row-meta-size: 14px;
+  --type-row-meta-leading: 18px;
+
+  /* Quote — serif Medium, centered */
+  --type-quote-size: 48px;
+  --type-quote-leading: 50px;
+  --type-quote-tracking: -0.5px;
+
+  /* Case-study title — serif Medium */
+  --type-case-title-size: 28px;
+
+  /* ---------- LAYOUT ---------- */
+  /* Measured off the Figma redlines (Frame 5):
+       0  → 16   white
+       16 → 80   orange block (64×64) — straddles the rail/paper seam
+       80 → 96   16px gap
+       96        every piece of text: masthead, hero, labels, row titles
+     So the block sits *in* the white and the text column is a single line
+     all the way down. 16 · 64 · 16 · 96 — all on the 8pt grid. */
+  --canvas-reference: 1496px;  /* desktop viewport the Figma frame targets */
+  --gutter-page: 72px;         /* document gutter */
+  --content-start: 96px;       /* primary content inset — one column, everything */
+  --block-inset: 16px;         /* orange block's left edge from the page edge */
+  --nav-gap: 48px;
+
+  /* ---------- RAIL ----------
+     The page ground is WHITE. The paper canvas is an inner column inset by
+     --rail-width on both sides, so white shows down each edge. This is a
+     rendered colour change, not empty padding — the contrast break is the
+     point. Orange blocks sit on the rail/paper seam. */
+  --rail: #FFFFFF;
+  --rail-width: 72px;
+
+  /* Left-oriented editorial canvas. NEVER:
+     max-width: 1200px; margin: 0 auto;                        */
+
+  --intro-max-width: 1030px;
+
+  /* ---------- ORANGE BLOCKS ---------- */
+  --block-header-w: 64px;
+  --block-header-h: 48px;
+  --block-marker: 64px;        /* section markers: 64 × 64 */
+
+  /* ---------- SPACING SCALE ----------
+     8pt grid: 8 · 16 · 32 · 48 · 72, plus multiples for large rhythm.
+     Every gap, pad and margin must come from this scale. Nothing else. */
+  --space-8: 8px;
+  --space-16: 16px;
+  --space-24-m: 24px;  /* mobile-only step; off the desktop 8/16/32/48/72 set */
+  --space-32: 32px;
+  --space-48: 48px;
+  --space-72: 72px;
+  --space-96: 96px;
+  --space-144: 144px;
+  --space-192: 192px;
+
+  /* ---------- SECTION RHYTHM ---------- */
+  --row-height: 48px;          /* was 59 — off-grid; snapped to the scale */
+  --gap-label-to-rows: 32px;   /* WRITING label → first row */
+  --gap-writing-to-speaking: 72px;
+
+  /* ---------- MEDIA ---------- */
+  --media-hero-w: 1400px;      /* opening photograph */
+  --media-hero-h: 788px;
+  --work-image-w: 680px;       /* case-study images */
+  --work-image-h: 425px;
+  --work-gap: 24px;
+
+  /* ---------- MOTION ---------- */
+  --zoom-scale: 1.04;          /* image zoom inside fixed crop: 1.03–1.06 */
+  --zoom-duration: 400ms;
+  --zoom-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --zoom-scale: 1;
+    --zoom-duration: 0ms;
+  }
+}
+
+/* ============================================================
+   SUPPLEMENTARY TOKENS — outside node 1:1988's stated scope
+   (masthead through WORK). Everything below covers surfaces the
+   node doesn't define: case-study detail pages (dark theme, not
+   part of the homepage canvas), WCAG-required text-safe color
+   variants, and mobile breakpoints. Flagged separately per the
+   constitution's authority rule 4 ("this file — for everything
+   the Figma node doesn't cover"). Do not merge into the section
+   above — keep the Figma-sourced tokens auditable on their own.
+   ============================================================ */
+:root {
+  /* Case-study pages (work-*.html) render dark, matching the
+     original black Framer source — outside the homepage canvas. */
+  --dark-bg: #1B1611;
+  --dark-ink: #F4EDE3;
+  --dark-dim: #A99C8D;
+  --dark-rule: #3A2F26;
+  --white: #FFFFFF; /* intentional pure-white image-card backgrounds, both themes */
+
+  /* Mobile breakpoint (<900px) overrides for --gutter-page / --block-marker.
+     Figma's reference canvas is desktop-only (1496px); mobile scale-down is
+     my own call per "mobile is authored, not shrunk," not a Figma value. */
+  --gutter-page-mobile: 24px;
+  --block-marker-mobile: 20px;
+
+  /* Micro-copy not covered by the Figma type scale (e.g. the "Booking a
+     conference?" aside under Speaking). */
+  --type-aside-size: 16px;
+
+  /* About / contact surfaces — outside node 1:1988's scope. */
+  --measure: 720px;        /* running prose measure (~70ch at 24px) */
+  --measure-form: 560px;   /* form column — narrower than prose on purpose */
+  --type-field-size: 20px; /* input text: large enough to feel authored, not admin */
+}

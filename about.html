@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About — Michel Ferreira</title>
+<meta name="description" content="Michel Ferreira — Designer Advocate at Figma. Brazil, Amsterdam, Canada, Sydney. Building things on the web since 1998.">
+<meta property="og:title" content="About — Michel Ferreira">
+<meta property="og:description" content="Designer Advocate at Figma. Brazil, Amsterdam, Canada, Sydney. Building things on the web since 1998.">
+<link rel="stylesheet" href="tokens.css?v=18">
+<link rel="stylesheet" href="multimichel.css?v=18">
+<link rel="stylesheet" href="grid-overlay.css?v=18">
+</head>
+<body>
+
+<header class="site">
+  <a class="brand" href="index.html"><i></i>MICHEL FERREIRA</a>
+  <nav class="main">
+    <a href="index.html#work">WORK</a>
+    <a href="index.html#speaking">SPEAKING</a>
+    <a href="index.html#writing">WRITING</a>
+    <a href="index.html#media">MEDIA</a>
+    <a href="about.html">ABOUT</a>
+  </nav>
+</header>
+
+<div class="wrap">
+
+  <section class="hero">
+    <h1 class="display">The scenic route</h1>
+    <div class="lede">
+      <p>I&rsquo;m Michel Ferreira. Brazilian, Sydney-based, Designer Advocate at <b><a href="https://www.figma.com" target="_blank" rel="noopener">Figma</a></b>. I&rsquo;ve been building things on the web since 1998, which is long enough to have been wrong about most of it at least once.</p>
+      <p>I got here the long way around: an Apple II at eight years old, design agencies in Brazil and California, then <b>Booking.com</b> in Amsterdam, <b>Shopify</b> in Canada, <b>Atlassian</b> and <b>Xero</b> in Sydney. Five countries, one job title that keeps changing shape.</p>
+    </div>
+  </section>
+
+  <figure class="full">
+    <img src="img/about-portrait.jpg" alt="Michel Ferreira laughing while holding a Figma logo cutout, wearing a t-shirt reading Variables &amp; Components &amp; Patterns &amp; Accessibility &amp; Documentation" style="object-position:center 30%">
+    <figcaption>Designer Advocate — Figma</figcaption>
+  </figure>
+
+  <p class="quote">&ldquo;Design is the labour of <span class="hl"><img class="hl-mark" src="img/highlight.svg" alt="" aria-hidden="true">understanding people</span>&rdquo;</p>
+
+  <section id="route">
+    <div class="sechead"><i class="tab"></i><h2>The route</h2></div>
+    <div class="rowlist" id="route-list"></div>
+  </section>
+
+  <section id="besides">
+    <div class="sechead"><i class="tab"></i><h2>Besides the work</h2></div>
+    <div class="prose">
+      <p>Husband, father of three, full-time goofball, and — on the record — still available for the NBA draft.</p>
+      <p>I host <a href="https://open.spotify.com/show/0J3JdhM454AvedlYlXqeRZ" target="_blank" rel="noopener">Latinxs Who Design</a>, a podcast about Latinx designers thriving in this industry. I teach a portfolio and career course, and I&rsquo;ve mentored more than a hundred designers across ten-odd countries — through <a href="https://mentorcruise.com/mentor/michelferreira/" target="_blank" rel="noopener">MentorCruise</a>, <a href="https://adplist.org/mentors/michel-ferreira" target="_blank" rel="noopener">ADPList</a>, and as a Design Leadership ambassador with Echos.</p>
+      <p>I write when something has been bothering me long enough to become an argument. Most of it ends up at <a href="https://alistapart.com/article/design-dialects-breaking-the-rules-not-the-system/" target="_blank" rel="noopener">A List Apart</a> or on <a href="https://multimichel.medium.com/" target="_blank" rel="noopener">Medium</a>.</p>
+      <p class="aside-note">Want to talk? <a href="contact.html" class="aside-note-link">Get in touch.</a></p>
+    </div>
+  </section>
+
+</div>
+
+<footer class="site">
+  <p class="fineprint">MULTIMICHEL © 1998–2026 MICHEL FERREIRA · SYDNEY, AUSTRALIA</p>
+  <p class="social">
+    <a class="fineprint" href="https://www.linkedin.com/in/michelpferreira/" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="fineprint" href="https://multimichel.medium.com/" target="_blank" rel="noopener">Medium</a>
+    <a class="fineprint" href="contact.html">Contact</a>
+  </p>
+</footer>
+
+<script src="content.js?v=18"></script>
+<script src="grid-overlay.js?v=18" defer></script>
+<script>
+(function(){
+  function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+  // The route reads straight off the same content graph the homepage uses —
+  // role on the left, where and when on the right. No provenance, no notes.
+  var list = MM.experience.map(function(e){
+    // Dates are patchy in the graph on purpose — render what's known, never
+    // a dangling en-dash or a bare "present".
+    var when;
+    if (e.end === "present") when = e.start ? e.start + " – now" : "Now";
+    else if (e.start && e.end)  when = e.start + "–" + e.end;
+    else                        when = e.start || e.end || "";
+    var meta = [e.city, when].filter(Boolean).join(" · ");
+    return '<div class="row"><span class="t">'+esc(e.company)+' — '+esc(e.role)+'</span><span class="m">'+esc(meta)+'</span></div>';
+  }).join("");
+  document.getElementById("route-list").innerHTML = list;
+})();
+</script>
+</body>
+</html>

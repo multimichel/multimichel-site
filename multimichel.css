@@ -1,0 +1,307 @@
+/* MultiMichel — homepage styles. All visual values come from tokens.css. */
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--rail)}
+/* The ground is white. The paper canvas is an inner column inset by
+   --rail-width on both sides, so white shows down each edge for the full
+   height of the page. The contrast break is deliberate. */
+body{
+  background:var(--paper);
+  border-left:var(--rail-width) solid var(--rail);
+  border-right:var(--rail-width) solid var(--rail);
+  color:var(--slate);font-family:var(--font-grotesk);font-weight:400;line-height:1.5;-webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+b,strong{font-weight:700}
+
+/* Left-biased canvas: anchored to the page edge, not centered with auto margins.
+   Inside the paper column, text is inset a further 16px so it lands at
+   --content-start (72 rail + 16 = 88). The orange blocks pull back that 16px
+   to sit flush on the rail/paper seam and break the text alignment on purpose. */
+.wrap,header.site{max-width:var(--canvas-reference);padding-left:calc(var(--content-start) - var(--rail-width));padding-right:var(--space-16)}
+
+/* Masthead block sits in the white rail too, on the same 8px left edge. */
+.brand i{margin-left:calc(var(--block-inset) - var(--content-start))}
+
+/* ---------- masthead & nav ---------- */
+header.site{display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:var(--space-32)}
+.brand{font-family:var(--font-label);font-weight:900;font-size:var(--type-masthead-size);letter-spacing:var(--type-masthead-tracking);color:var(--masthead);text-transform:uppercase;display:flex;align-items:flex-end}
+.brand i{
+  width:var(--block-header-w);height:var(--block-header-h);background:var(--orange);display:inline-block;
+  margin-right:var(--space-16);
+  flex:none;
+}
+nav.main{display:flex;gap:var(--nav-gap);padding-bottom:var(--space-8)}
+nav.main a{font-family:var(--font-label);font-weight:900;font-size:var(--type-label-size);line-height:var(--type-label-leading);letter-spacing:var(--type-label-tracking);color:var(--dim)}
+nav.main a:hover{color:var(--orange)}
+
+/* ---------- hero — large intentional opening whitespace ---------- */
+.hero{padding-top:var(--space-192)}
+h1.display{
+  font-family:var(--font-serif);
+  font-weight:800;
+  font-size:clamp(52px,10.2vw,var(--type-hero-size));
+  letter-spacing:var(--type-hero-tracking);
+  line-height:.96;
+  color:var(--slate);
+}
+@media(max-width:700px){h1.display{letter-spacing:-.03em}}
+
+.lede{max-width:var(--intro-max-width);margin-top:var(--space-32);font-family:var(--font-grotesk);font-weight:400;font-size:clamp(17px,2vw,var(--type-body-size));line-height:1.48;color:var(--slate)}
+.lede p+p{margin-top:var(--space-16)}
+.lede b{font-weight:700}
+.lede a{border-bottom:1.5px solid var(--orange)}
+.lede a:hover{color:var(--orange)}
+
+/* ---------- photo — 1400×788 reference (16:9) ---------- */
+figure.full{margin:var(--space-72) 0 0}
+figure.full img{width:100%;aspect-ratio:1400/788;object-fit:cover}
+figcaption,.cap{font-family:var(--font-grotesk);font-weight:500;font-size:var(--type-label-size);letter-spacing:.4px;color:var(--muted);text-transform:uppercase;margin-top:var(--space-16)}
+
+/* ---------- quote ----------
+   The block owns the vertical rhythm; the quote itself no longer carries the
+   margin, so the source line sits with it rather than floating off. */
+.quote-block{margin:var(--space-144) 0;text-align:center}
+.quote{
+  text-align:center;
+  font-family:var(--font-serif);
+  font-weight:500;
+  font-size:clamp(28px,4.6vw,var(--type-quote-size));
+  line-height:1.04;
+  letter-spacing:var(--type-quote-tracking);
+  color:var(--ink-quote);
+  max-width:15em;
+  margin:0 auto;
+  padding:0 var(--space-16);
+}
+/* Attribution stays deliberately small — it is a footnote to the quote, not a
+   second headline competing with it. */
+.quote-source{
+  margin:var(--space-32) auto 0;
+  max-width:var(--measure-form);
+  padding:0 var(--space-16);
+  font-family:var(--font-grotesk);
+  font-size:var(--type-row-meta-size);
+  line-height:1.5;
+  color:var(--muted);
+  /* this is a sentence, not a caption — opt out of the uppercase figcaption rule */
+  text-transform:none;
+  letter-spacing:normal;
+}
+.quote-source cite{font-style:normal;font-weight:500;color:var(--oak)}
+.quote-source a{white-space:nowrap;color:var(--oak);border-bottom:1.5px solid var(--orange)}
+.quote-source a:hover{color:var(--orange)}
+/* z-index:0 gives .hl its own stacking context, so the brush at z-index:-1
+   sits behind the words but still in front of the paper fill on <body>.
+   Without it the brush paints underneath the body background and vanishes. */
+.hl{position:relative;z-index:0;white-space:nowrap;display:inline-block}
+/* The brush is centred on the text, not hung off the baseline: its top edge
+   sits just above the x-height and the bottom clears the descenders. */
+/* Explicit width/height, not left+right / top+bottom: an <img> is a replaced
+   element, so an over-constrained inset box falls back to its intrinsic size
+   instead of stretching. */
+/* Values tuned by Michel in DevTools: height left intrinsic (the brush keeps
+   its own 445:78 proportion) and the box nudged up so the stroke sits on the
+   word rather than under it. */
+.hl-mark{
+  position:absolute;
+  left:-3.5%;top:-8%;
+  width:108%;
+  object-fit:fill;
+  z-index:-1;
+  pointer-events:none;
+}
+
+/* ---------- section markers ----------
+   The marker is taken OUT of flow so it never pushes the label. That keeps
+   every piece of text — section labels and the row titles beneath them — on
+   one column at --content-start, while the square sits out in the white rail
+   (8 → 72), flush against the rail/paper seam. */
+.sechead{position:relative;display:flex;align-items:center;margin-bottom:var(--gap-label-to-rows)}
+.sechead .tab{
+  position:absolute;
+  left:calc(var(--block-inset) - var(--content-start));
+  top:50%;transform:translateY(-50%);
+  width:var(--block-marker);height:var(--block-marker);
+  background:var(--orange);
+}
+.sechead h2{font-family:var(--font-label);font-weight:900;font-size:var(--type-label-size);line-height:var(--type-label-leading);letter-spacing:var(--type-label-tracking);color:var(--muted);text-transform:uppercase}
+.sechead .more{margin-left:auto;font-family:var(--font-label);font-weight:900;font-size:var(--type-label-size);letter-spacing:1.1px;color:var(--dim);text-transform:uppercase}
+.sechead .more:hover{color:var(--orange)}
+
+/* ---------- editorial rows — the whole row is the link, table-style ---------- */
+a.row,div.row{display:flex;justify-content:space-between;align-items:center;min-height:var(--row-height);gap:var(--space-32);padding:0 var(--space-16);margin:0 calc(-1 * var(--space-16));border-bottom:1px solid var(--rule-light);transition:background .15s}
+a.row{cursor:pointer}
+a.row:hover{background:var(--rule-light)}
+.rowlist .row:first-child{border-top:1px solid var(--rule-light)}
+.row .t{font-family:var(--font-serif);font-weight:500;font-size:var(--type-row-title-size);line-height:var(--type-row-title-leading);color:var(--ink)}
+a.row:hover .t{color:var(--orange)}
+.row .sub{font-family:var(--font-grotesk);font-weight:400;font-size:15px;line-height:1.4;color:var(--muted);margin-top:3px;max-width:640px}
+.row .m{font-family:var(--font-grotesk);font-weight:500;font-size:var(--type-row-meta-size);line-height:var(--type-row-meta-leading);color:var(--oak);white-space:nowrap;text-align:right}
+/* UPCOMING is a solid block, not coloured text — it reads as a sibling of the
+   section markers rather than as a link. */
+.row .m .up{
+  display:inline-block;background:var(--orange);color:var(--rail);
+  font-family:var(--font-label);font-weight:900;font-size:11px;letter-spacing:1.1px;
+  padding:2px var(--space-8);margin-right:var(--space-8);vertical-align:1px;
+}
+
+.aside-note{margin-top:var(--space-32);font-family:var(--font-grotesk);font-size:var(--type-aside-size);color:var(--dim)}
+.aside-note-link{border-bottom:1.5px solid var(--orange)}
+
+/* ---------- prose (about) ---------- */
+.prose{max-width:var(--measure);font-family:var(--font-grotesk);font-size:var(--type-body-size);line-height:var(--type-body-leading);color:var(--slate)}
+.prose p+p{margin-top:var(--space-16)}
+.prose a{border-bottom:1.5px solid var(--orange)}
+.prose a:hover{color:var(--orange)}
+
+/* ---------- form (contact) ----------
+   Rules, not boxes: an input is a line you write on, matching the editorial
+   rows rather than importing a SaaS form kit. */
+.form{max-width:var(--measure-form)}
+.field{margin-bottom:var(--space-32)}
+.field label{
+  display:block;margin-bottom:var(--space-8);
+  font-family:var(--font-label);font-weight:900;font-size:var(--type-label-size);
+  letter-spacing:var(--type-label-tracking);text-transform:uppercase;color:var(--muted);
+}
+.field input,.field textarea,.field select{
+  width:100%;display:block;
+  background:transparent;border:0;border-bottom:1.5px solid var(--rule-strong);
+  padding:var(--space-8) 0;
+  font-family:var(--font-grotesk);font-size:var(--type-field-size);color:var(--ink);
+  border-radius:0;-webkit-appearance:none;appearance:none;
+}
+.field textarea{resize:vertical;line-height:1.5}
+.field select{cursor:pointer;background-image:none}
+.field input:focus,.field textarea:focus,.field select:focus{outline:0;border-bottom-color:var(--orange)}
+.field input[aria-invalid="true"],.field textarea[aria-invalid="true"]{border-bottom-color:var(--orange)}
+.err{margin-top:var(--space-8);font-family:var(--font-grotesk);font-size:var(--type-row-meta-size);color:var(--orange)}
+
+.submit{
+  display:inline-block;border:0;cursor:pointer;
+  background:var(--orange);color:var(--rail);
+  font-family:var(--font-label);font-weight:900;font-size:var(--type-label-size);
+  letter-spacing:var(--type-label-tracking);text-transform:uppercase;
+  padding:var(--space-16) var(--space-32);border-radius:0;
+  transition:opacity .15s;
+}
+.submit:hover{opacity:.85}
+.submit:disabled{opacity:.4;cursor:default}
+.form-status{margin-top:var(--space-16);font-family:var(--font-grotesk);font-size:var(--type-row-meta-size);color:var(--dim);min-height:1.2em}
+.form-status.is-error{color:var(--orange)}
+.form-status.is-ok{color:var(--oak)}
+
+/* about / contact section rhythm */
+#route{padding-top:var(--space-72)}
+#besides{padding-top:var(--space-96);padding-bottom:var(--space-8)}
+#contact-form{padding-top:var(--space-72)}
+#elsewhere-contact{padding-top:var(--space-96);padding-bottom:var(--space-8)}
+
+/* ---------- per-section rhythm — every value from the 8pt scale.
+   Deliberately uneven: WORK gets the biggest run-up, MEDIA the tightest,
+   so the cadence modulates rather than repeating. ---------- */
+#writing{padding-top:var(--space-72)}
+#speaking{padding-top:var(--gap-writing-to-speaking)}
+#work{padding-top:var(--space-144)}
+#media{padding-top:var(--space-72)}
+#elsewhere{padding-top:var(--space-72);padding-bottom:var(--space-8)}
+
+/* ---------- fixed-frame image zoom hover ---------- */
+.zoomframe{overflow:hidden;display:block;background:var(--white)}
+.zoomframe img{transition:transform var(--zoom-duration) var(--zoom-ease);transform:scale(1);will-change:transform}
+.zoomframe:hover img{transform:scale(var(--zoom-scale))}
+
+/* ---------- work — two compact visual case studies, side by side.
+   680×425 reference ratio (8:5), work-gap is a Figma value (24px). ---------- */
+.work-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--work-gap);margin-top:0}
+.work-card{display:block}
+.work-card .zoomframe{aspect-ratio:680/425}
+.work-card .zoomframe img{width:100%;height:100%;object-fit:cover}
+/* CASE STUDY label uses the label face, all-caps — matching node 13:688. */
+.work-label{font-family:var(--font-label);font-weight:900;font-size:var(--type-label-size);letter-spacing:var(--type-label-tracking);color:var(--orange);text-transform:uppercase;margin-top:var(--space-16)}
+.work-card-title{position:relative;display:inline-block;font-family:var(--font-serif);font-weight:500;font-size:clamp(19px,1.7vw,24px);line-height:1.2;color:var(--ink);margin-top:var(--space-8)}
+/* Hover: the same hand-drawn brush as the quote, in white, swiped behind the
+   title. The title colour does not change — the brush is the whole gesture. */
+.work-card-title .brush{
+  position:absolute;
+  left:-3%;top:40%;
+  width:106%;height:85%;
+  object-fit:fill;
+  z-index:-1;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity var(--zoom-duration) var(--zoom-ease);
+}
+.work-card:hover .work-card-title .brush{opacity:1}
+
+/* ---------- media — visual, real imagery, no embeds (outside Figma-node scope) ---------- */
+.media-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-32)}
+.media-card{display:block}
+.media-card .zoomframe{aspect-ratio:1/1}
+.media-card .zoomframe img{width:100%;height:100%;object-fit:cover}
+.media-label{font-family:var(--font-label);font-weight:900;font-size:var(--type-label-size);letter-spacing:var(--type-label-tracking);color:var(--orange);text-transform:uppercase;margin-top:var(--space-16)}
+.media-card-title{font-family:var(--font-serif);font-weight:500;font-size:var(--type-row-title-size);line-height:1.25;color:var(--ink);margin-top:var(--space-8)}
+.media-card:hover .media-card-title{color:var(--orange)}
+
+/* ---------- footer (outside Figma-node scope) ---------- */
+footer.site{border-top:1px solid var(--rule-strong);margin-top:var(--space-96);padding:var(--space-32) var(--space-16) var(--space-48) calc(var(--content-start) - var(--rail-width));display:flex;flex-wrap:wrap;gap:var(--space-16);justify-content:space-between;align-items:center}
+.fineprint{font-family:var(--font-grotesk);font-weight:500;font-size:var(--type-label-size);color:var(--muted)}
+footer.site .social a{margin-left:18px}
+footer.site .social a:hover{color:var(--orange)}
+
+@media(prefers-reduced-motion:reduce){
+  .zoomframe img{transition:none}
+  html{scroll-behavior:auto}
+}
+
+/* ---------- mobile — authored, not shrunk ----------
+   The desktop redlines are desktop-only. On a 390px screen a 72px rail plus a
+   96px text column eats 28% of the width before a word is set, so the whole
+   left-edge system is re-proportioned on the same 8pt grid:
+
+       0  → 8    white
+       8  → 40   orange block (32×32) — still straddles the seam
+       40 → 48   8px gap
+       48        text column
+       24        rail/paper seam
+
+   That returns ~326px of content on a 390px screen instead of 206px.
+   The hero stays deliberately enormous; only the frame gets tighter. */
+@media(max-width:900px){
+  :root{
+    --rail-width:var(--space-24-m);
+    --content-start:var(--space-48);
+    --block-inset:var(--space-8);
+    --block-marker:var(--space-32);
+    --block-header-w:var(--space-32);
+    --block-header-h:var(--space-24-m);
+    --nav-gap:var(--space-16);
+    --intro-max-width:100%;
+  }
+  header.site{flex-direction:column;align-items:flex-start;gap:var(--space-16);padding-bottom:var(--space-24-m)}
+  .brand{font-size:19px}
+  nav.main{gap:var(--space-16);flex-wrap:wrap;padding-bottom:0}
+
+  /* vertical rhythm compresses; the hero keeps its scale */
+  .hero{padding-top:var(--space-72)}
+  figure.full{margin-top:var(--space-48)}
+  .quote{margin:var(--space-72) auto;max-width:none}
+  #writing{padding-top:var(--space-48)}
+  #speaking{padding-top:var(--space-48)}
+  #work{padding-top:var(--space-72)}
+  #media{padding-top:var(--space-48)}
+  #elsewhere{padding-top:var(--space-48)}
+  #route,#contact-form{padding-top:var(--space-48)}
+  #besides,#elsewhere-contact{padding-top:var(--space-72)}
+  .form,.prose{max-width:100%}
+
+  /* metadata reflows under the title rather than fighting it for width */
+  a.row,div.row{flex-direction:column;align-items:flex-start;gap:var(--space-8);min-height:0;padding:var(--space-16) var(--space-8);margin:0 calc(-1 * var(--space-8))}
+  .row .m{text-align:left;white-space:normal}
+
+  .work-grid{grid-template-columns:1fr;gap:var(--space-48)}
+  .media-grid{grid-template-columns:1fr;gap:var(--space-32)}
+  footer.site{padding-left:calc(var(--content-start) - var(--rail-width));padding-bottom:var(--space-48)}
+}

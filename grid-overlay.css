@@ -1,0 +1,68 @@
+/* Spec overlay — press G, or use the toggle. Proves the page is built to the
+   8px scale and that the rail, content column and blocks land where the
+   tokens say. Every value here reads from tokens.css; nothing is redrawn by
+   hand, so if the overlay and the design disagree, the design is wrong. */
+
+.gridtoggle{
+  position:fixed;right:var(--space-16);bottom:var(--space-16);z-index:9999;
+  font-family:var(--font-label);font-weight:900;font-size:11px;letter-spacing:1.1px;text-transform:uppercase;
+  background:var(--ink);color:var(--rail);border:0;border-radius:2px;
+  padding:var(--space-8) 10px;cursor:pointer;opacity:.35;transition:opacity .15s;
+}
+.gridtoggle:hover,.gridtoggle[aria-pressed="true"]{opacity:1}
+.gridtoggle[aria-pressed="true"]{background:var(--orange)}
+
+/* Pure overlay: fixed to the viewport, above everything, never in flow and
+   never hit-testable, so switching it on cannot shift a single pixel. */
+.gridlayer{position:fixed;inset:0;pointer-events:none;z-index:9998;display:none;overflow:hidden}
+body.grid-on .gridlayer{display:block}
+
+/* 8px baseline grid across the whole document */
+.gridlayer .baseline{
+  position:absolute;inset:0;
+  background-image:repeating-linear-gradient(
+    to bottom,
+    color-mix(in srgb,var(--orange) 16%,transparent) 0 1px,
+    transparent 1px var(--space-8)
+  );
+}
+/* every 4th line (32px) reads stronger so the scale is countable */
+.gridlayer .baseline-major{
+  position:absolute;inset:0;
+  background-image:repeating-linear-gradient(
+    to bottom,
+    color-mix(in srgb,var(--orange) 34%,transparent) 0 1px,
+    transparent 1px var(--space-32)
+  );
+}
+
+/* Vertical guides: rail seams and the content column */
+.gridlayer .vline{position:absolute;top:0;bottom:0;width:1px;background:color-mix(in srgb,var(--orange) 55%,transparent)}
+.gridlayer .vline.rail{background:color-mix(in srgb,#0A84FF 70%,transparent)}
+.gridlayer .vline::after{
+  content:attr(data-label);
+  position:absolute;top:var(--space-8);left:4px;
+  font-family:var(--font-grotesk);font-weight:500;font-size:10px;letter-spacing:.3px;
+  color:var(--orange);background:var(--rail);padding:1px 4px;white-space:nowrap;
+}
+.gridlayer .vline.rail::after{color:#0A84FF}
+
+/* Rail fill tint so the white margins are unmistakable while inspecting.
+   Viewport-relative, matching the body's rail borders. */
+.gridlayer .railfill{position:absolute;top:0;bottom:0;width:var(--rail-width);background:color-mix(in srgb,#0A84FF 7%,transparent)}
+.gridlayer .railfill.left{left:0}
+.gridlayer .railfill.right{right:0}
+
+/* Legend */
+.gridlegend{
+  position:fixed;right:var(--space-16);bottom:52px;z-index:9999;display:none;
+  background:var(--ink);color:var(--rail);padding:var(--space-16);border-radius:2px;
+  font-family:var(--font-grotesk);font-size:11px;line-height:1.7;letter-spacing:.2px;max-width:260px;
+}
+body.grid-on .gridlegend{display:block}
+.gridlegend b{font-family:var(--font-label);font-weight:900;font-size:11px;letter-spacing:1.1px;text-transform:uppercase;display:block;margin-bottom:var(--space-8);color:var(--orange)}
+.gridlegend dl{display:grid;grid-template-columns:auto 1fr;gap:2px var(--space-16)}
+.gridlegend dt{opacity:.6}
+.gridlegend dd{text-align:right;font-variant-numeric:tabular-nums}
+
+@media(prefers-reduced-motion:reduce){.gridtoggle{transition:none}}
