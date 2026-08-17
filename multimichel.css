@@ -11,7 +11,12 @@ body{
   border-right:var(--rail-width) solid var(--rail);
   color:var(--slate);font-family:var(--font-grotesk);font-weight:400;line-height:1.5;-webkit-font-smoothing:antialiased;
 }
-img{max-width:100%;display:block}
+/* height:auto is not optional once images carry intrinsic width/height
+   attributes: without it the HTML height attribute dictates layout height and
+   a 2000×1333 photo renders 1333px tall. With it, the attributes do only the
+   job they are there for — reserving the right box so nothing shifts on load —
+   while CSS keeps control of the rendered size. */
+img{max-width:100%;height:auto;display:block}
 a{color:inherit;text-decoration:none}
 b,strong{font-weight:700}
 
@@ -19,22 +24,48 @@ b,strong{font-weight:700}
    Inside the paper column, text is inset a further 16px so it lands at
    --content-start (72 rail + 16 = 88). The orange blocks pull back that 16px
    to sit flush on the rail/paper seam and break the text alignment on purpose. */
-.wrap,header.site{max-width:var(--canvas-reference);padding-left:calc(var(--content-start) - var(--rail-width));padding-right:var(--space-16)}
+.wrap,header.site{max-width:var(--canvas-reference);padding-left:var(--content-inset);padding-right:var(--content-inset)}
 
-/* Masthead block sits in the white rail too, on the same 8px left edge. */
-.brand i{margin-left:calc(var(--block-inset) - var(--content-start))}
-
-/* ---------- masthead & nav ---------- */
-header.site{display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:var(--space-32)}
-.brand{font-family:var(--font-label);font-weight:900;font-size:var(--type-masthead-size);letter-spacing:var(--type-masthead-tracking);color:var(--masthead);text-transform:uppercase;display:flex;align-items:flex-end}
-.brand i{
-  width:var(--block-header-w);height:var(--block-header-h);background:var(--orange);display:inline-block;
-  margin-right:var(--space-16);
-  flex:none;
+/* Skip link — first focusable element on every page. Off-screen until focused,
+   then lands on the marker rail like everything else. */
+.skiplink{
+  position:absolute;left:-9999px;top:0;z-index:100;
+  font-family:var(--font-label);font-weight:900;font-size:var(--type-label-size);
+  letter-spacing:var(--type-label-tracking);text-transform:uppercase;
+  background:var(--slate);color:var(--paper);padding:var(--space-16);
 }
+.skiplink:focus{left:0}
+
+/* ---------- masthead & nav ----------
+   The brand square is a real <button> (mobile menu control) and the
+   wordmark a separate link, so the square can own its own tap target
+   without nesting interactive elements. */
+header.site{display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:var(--space-32)}
+.brand{display:flex;align-items:center}
+.brand-link{padding-top:var(--cap-optical-shift);font-family:var(--font-label);font-weight:900;font-size:var(--type-masthead-size);line-height:var(--type-masthead-leading);letter-spacing:var(--type-masthead-tracking);color:var(--masthead);text-transform:uppercase}
+/* The header square rides the SAME marker rail as every .sechead .tab:
+   both resolve to --block-inset from the page edge, so the square hangs
+   out of the content column exactly as the section markers do. Margin is
+   declared once here — an earlier `margin:0` in this block was silently
+   cancelling the rail offset and pulling the square inside the column. */
+.brand-menu{
+  position:relative;
+  width:var(--block-header-w);height:var(--block-header-h);background:var(--orange);
+  border:0;padding:0;flex:none;cursor:default;
+  display:inline-flex;align-items:center;justify-content:center;
+  margin:0 var(--space-16) 0 calc(var(--block-inset) - var(--content-start));
+}
+.brand-menu:disabled{opacity:1}
+.menu-icon{display:none}
 nav.main{display:flex;gap:var(--nav-gap);padding-bottom:var(--space-8)}
 nav.main a{font-family:var(--font-label);font-weight:900;font-size:var(--type-label-size);line-height:var(--type-label-leading);letter-spacing:var(--type-label-tracking);color:var(--dim)}
-nav.main a:hover{color:var(--orange)}
+
+nav.main a[aria-current="page"]{color:var(--ink)}
+
+/* The mobile nav panel exists at every width but only ever paints inside
+   the ≤900px block below — this base rule just keeps it out of layout
+   above that breakpoint. */
+.mobile-nav{display:none}
 
 /* ---------- hero — large intentional opening whitespace ---------- */
 .hero{padding-top:var(--space-192)}
@@ -48,15 +79,14 @@ h1.display{
 }
 @media(max-width:700px){h1.display{letter-spacing:-.03em}}
 
-.lede{max-width:var(--intro-max-width);margin-top:var(--space-32);font-family:var(--font-grotesk);font-weight:400;font-size:clamp(17px,2vw,var(--type-body-size));line-height:1.48;color:var(--slate)}
+.lede{max-width:var(--intro-max-width);margin-top:var(--space-32);font-family:var(--font-grotesk);font-weight:400;font-size:var(--type-body-fluid);line-height:var(--type-body-leading-ratio);color:var(--slate)}
 .lede p+p{margin-top:var(--space-16)}
 .lede b{font-weight:700}
-.lede a{border-bottom:1.5px solid var(--orange)}
-.lede a:hover{color:var(--orange)}
+
 
 /* ---------- photo — 1400×788 reference (16:9) ---------- */
 figure.full{margin:var(--space-72) 0 0}
-figure.full img{width:100%;aspect-ratio:1400/788;object-fit:cover}
+figure.full img,figure.full video{width:100%;height:auto;aspect-ratio:1400/788;object-fit:cover}
 figcaption,.cap{font-family:var(--font-grotesk);font-weight:500;font-size:var(--type-label-size);letter-spacing:.4px;color:var(--muted);text-transform:uppercase;margin-top:var(--space-16)}
 
 /* ---------- quote ----------
@@ -90,24 +120,25 @@ figcaption,.cap{font-family:var(--font-grotesk);font-weight:500;font-size:var(--
   letter-spacing:normal;
 }
 .quote-source cite{font-style:normal;font-weight:500;color:var(--oak)}
-.quote-source a{white-space:nowrap;color:var(--oak);border-bottom:1.5px solid var(--orange)}
-.quote-source a:hover{color:var(--orange)}
+.quote-source a{white-space:nowrap;color:var(--oak)}
+
 /* z-index:0 gives .hl its own stacking context, so the brush at z-index:-1
    sits behind the words but still in front of the paper fill on <body>.
    Without it the brush paints underneath the body background and vanishes. */
+/* ---------- yellow marker (highlighter) ----------
+   Keep the original painted SVG behind the complete phrase. The image uses
+   its natural aspect ratio, with a modest overshoot beyond both text edges. */
 .hl{position:relative;z-index:0;white-space:nowrap;display:inline-block}
-/* The brush is centred on the text, not hung off the baseline: its top edge
-   sits just above the x-height and the bottom clears the descenders. */
-/* Explicit width/height, not left+right / top+bottom: an <img> is a replaced
-   element, so an over-constrained inset box falls back to its intrinsic size
-   instead of stretching. */
-/* Values tuned by Michel in DevTools: height left intrinsic (the brush keeps
-   its own 445:78 proportion) and the box nudged up so the stroke sits on the
-   word rather than under it. */
+.quote-mark{position:relative;z-index:1}
+/* The closing ” belongs to the highlighted phrase — on a wide viewport it was
+   breaking onto a line of its own. Marker styling is untouched. */
+.quote-tail{white-space:nowrap}
 .hl-mark{
   position:absolute;
-  left:-3.5%;top:-8%;
-  width:108%;
+  left:-5%;
+  top:-8%;
+  width:110%;
+  max-width:none;
   object-fit:fill;
   z-index:-1;
   pointer-events:none;
@@ -118,37 +149,216 @@ figcaption,.cap{font-family:var(--font-grotesk);font-weight:500;font-size:var(--
    every piece of text — section labels and the row titles beneath them — on
    one column at --content-start, while the square sits out in the white rail
    (8 → 72), flush against the rail/paper seam. */
-.sechead{position:relative;display:flex;align-items:center;margin-bottom:var(--gap-label-to-rows)}
+/* The row is as tall as the marker, so the square and the label are centred
+   against the SAME box rather than the label's much shorter line box. The
+   square centres by the box model (top/bottom 0 + auto margins), not by a
+   transform, and neither element carries a positional nudge. */
+.sechead{
+  position:relative;display:flex;align-items:center;
+  min-height:var(--block-marker);
+  margin-bottom:var(--gap-label-to-rows);
+}
 .sechead .tab{
   position:absolute;
   left:calc(var(--block-inset) - var(--content-start));
-  top:50%;transform:translateY(-50%);
+  top:0;bottom:0;margin-block:auto;
   width:var(--block-marker);height:var(--block-marker);
   background:var(--orange);
 }
-.sechead h2{font-family:var(--font-label);font-weight:900;font-size:var(--type-label-size);line-height:var(--type-label-leading);letter-spacing:var(--type-label-tracking);color:var(--muted);text-transform:uppercase}
+/* Copy-permalink affordance, added by nav.js. Sits exactly inside the
+   marker's own box (inset:0) so the square's size/position never changes —
+   invisible until hover/focus, same square either way. */
+.tab-copy{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  background:transparent;border:0;padding:0;margin:0;cursor:pointer;
+  color:#fff;opacity:0;transition:opacity .15s ease;
+}
+.sechead .tab:hover .tab-copy,
+.tab-copy:focus-visible{opacity:1}
+.tab-copy:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.tab-copy-status{
+  position:absolute;left:50%;top:calc(100% + 8px);transform:translateX(-50%);
+  white-space:nowrap;
+  font-family:var(--font-grotesk);font-size:11px;font-weight:600;
+  background:var(--ink);color:var(--paper);
+  padding:4px 8px;border-radius:3px;
+  opacity:0;pointer-events:none;transition:opacity .15s ease;
+}
+.sechead .tab.is-copied .tab-copy-status{opacity:1}
+/* Page-level eyebrow — the same label treatment as a section name
+   (.sechead h2), used above an H1 rather than above a list. Tied to the
+   heading it introduces, never a floating line of body text. */
+.eyebrow{font-family:var(--font-label);font-weight:900;font-size:var(--type-label-size);line-height:var(--type-label-leading);letter-spacing:var(--type-label-tracking);color:var(--muted);text-transform:uppercase;margin-bottom:var(--space-16)}
+/* Agrandir's caps fill its ascent (cap 720 / asc 750), so the visible
+   letterforms sit 0.11em above the centre of their own line box — geometric
+   centring alone leaves the label reading high against the square. The padding
+   is exactly twice that, because centring halves whatever is added. Metric
+   compensation applied once in the shared component, not a per-section nudge. */
+.sechead h2{padding-top:var(--cap-optical-shift);font-family:var(--font-label);font-weight:900;font-size:var(--type-label-size);line-height:var(--type-label-leading);letter-spacing:var(--type-label-tracking);color:var(--muted);text-transform:uppercase}
 .sechead .more{margin-left:auto;font-family:var(--font-label);font-weight:900;font-size:var(--type-label-size);letter-spacing:1.1px;color:var(--dim);text-transform:uppercase}
-.sechead .more:hover{color:var(--orange)}
 
-/* ---------- editorial rows — the whole row is the link, table-style ---------- */
-a.row,div.row{display:flex;justify-content:space-between;align-items:center;min-height:var(--row-height);gap:var(--space-32);padding:0 var(--space-16);margin:0 calc(-1 * var(--space-16));border-bottom:1px solid var(--rule-light);transition:background .15s}
+
+/* ---------- editorial rows — ONE grammar, everywhere ----------
+   Speaking, Writing, Archive, Around-the-internet and Media all render the
+   same four-part row, stacked at every width:
+
+       KICKER      optional — status (UPCOMING) or category (WRITING, TALK…)
+       Title ↗     the click target; the arrow belongs to it
+       metadata    where / when / source
+       description optional
+
+   There is no second arrow column and no side-by-side variant. Anything that
+   belongs to the row belongs in this stack. */
+a.row,div.row{
+  display:grid;
+  grid-template-columns:minmax(0, 1fr) auto;
+  column-gap:var(--space-16);
+  /* Title, metadata and arrow share ONE baseline at every width. Without this
+     the arrow floated to the top of the row while the publication sat on the
+     baseline beside it — the two never lined up. */
+  align-items:baseline;
+  padding:var(--space-16);margin:0 calc(-1 * var(--space-16));
+  border-bottom:1px solid var(--rule-light);transition:background .15s;
+}
+/* Kicker, metadata and description run the full width; only the title shares
+   its line with the action arrow. */
+.row .kicker-line,.row .m,.row .sub{grid-column:1 / -1}
+.row .t{grid-column:1}
+.row .go{grid-column:2}
 a.row{cursor:pointer}
-a.row:hover{background:var(--rule-light)}
+/* Hover + keyboard focus share ONE treatment: the row inverts to the slate
+   ground so #FF6C00 has a dark backdrop to sit on. Orange on paper is 2.6:1;
+   orange on slate clears AA comfortably, so the brand colour is untouched and
+   the contrast is solved by what sits behind it. */
+a.row:hover,a.row:focus-visible{background:var(--slate);outline:none}
+a.row:focus-visible{outline:2px solid var(--orange);outline-offset:-2px}
 .rowlist .row:first-child{border-top:1px solid var(--rule-light)}
+
 .row .t{font-family:var(--font-serif);font-weight:500;font-size:var(--type-row-title-size);line-height:var(--type-row-title-leading);color:var(--ink)}
-a.row:hover .t{color:var(--orange)}
-.row .sub{font-family:var(--font-grotesk);font-weight:400;font-size:15px;line-height:1.4;color:var(--muted);margin-top:3px;max-width:640px}
-.row .m{font-family:var(--font-grotesk);font-weight:500;font-size:var(--type-row-meta-size);line-height:var(--type-row-meta-leading);color:var(--oak);white-space:nowrap;text-align:right}
-/* UPCOMING is a solid block, not coloured text — it reads as a sibling of the
-   section markers rather than as a link. */
-.row .m .up{
-  display:inline-block;background:var(--orange);color:var(--rail);
-  font-family:var(--font-label);font-weight:900;font-size:11px;letter-spacing:1.1px;
-  padding:2px var(--space-8);margin-right:var(--space-8);vertical-align:1px;
+a.row:hover .t,a.row:focus-visible .t{color:var(--orange)}
+.row .m{font-family:var(--font-grotesk);font-weight:500;font-size:var(--type-row-meta-size);line-height:var(--type-row-meta-leading);color:var(--oak);margin-top:var(--gap-row-title-to-meta)}
+.row .sub{font-family:var(--font-grotesk);font-weight:400;font-size:var(--type-sub-size);line-height:1.4;color:var(--muted);margin-top:var(--space-8);max-width:640px}
+/* Metadata and description flip to paper so they stay readable on the slate. */
+a.row:hover .m,a.row:focus-visible .m,
+a.row:hover .sub,a.row:focus-visible .sub{color:var(--paper)}
+a.row:hover .cat,a.row:focus-visible .cat{background:transparent;color:var(--paper);box-shadow:inset 0 0 0 1px currentColor}
+
+/* ---------- action arrow ----------
+   One quiet position: the right edge of the title line, in its own grid cell.
+   Because it is a sibling of the title rather than part of its text, a long
+   title wraps on its own measure and never reflows around the arrow — and the
+   arrow can never be stranded alone on a line. ↗ leaves the site, → stays.
+   Compact navigation labels (ALL WRITING →) keep their arrow inline; they are
+   labels, not editorial rows. */
+/* rem, not em: the action mark must be the SAME size in every context. As an
+   em it inherited its parent — 10.4px beside a row title, 11.7px inside the
+   larger .media-card-title — so the same mark rendered two sizes. */
+.arrow,.go{font-size:.65rem;line-height:1;color:var(--oak)}
+a.row:hover .go,a.row:focus-visible .go{color:var(--orange)}
+
+/* ---------- kickers: status and category ----------
+   Both sit on their own line above the title. They are deliberately NOT the
+   same weight: UPCOMING is live, actionable status; a category is a filing
+   label that exists to help scanning and must stay behind the title. */
+.row .kicker-line{display:block;margin-bottom:var(--space-8)}
+.row .up,.row .cat{
+  display:inline-block;
+  font-family:var(--font-label);font-weight:900;font-size:var(--type-chip-size);letter-spacing:var(--type-chip-tracking);
+  text-transform:uppercase;
+}
+/* Slate on orange, not white on orange — white was 2.84:1. */
+.row .up{background:var(--orange);color:var(--slate);padding:2px var(--space-8)}
+.row .cat{background:var(--rule-light);color:var(--oak);padding:2px var(--space-8);border-radius:2px}
+
+/* ---------- desktop composition ----------
+   Same markup, same source order, different arrangement: above the mobile
+   breakpoint the row becomes an editorial two-column rhythm — title on the
+   left, source/date in the secondary right-hand column, sharing a baseline.
+   Kicker and description still span the full width, so the reading order is
+   unchanged; only the middle band splits.
+   This is one grammar composed two ways, NOT two markups — nothing here
+   reintroduces the old has-badge / has-ext / rowbody variants. */
+@media(min-width:901px){
+  a.row,div.row{
+    display:grid;
+    /* minmax(0,1fr) not 1fr: a bare 1fr floors at the title's min-content
+       width, so a long unbroken title would refuse to wrap and shove the
+       metadata column off the row. */
+    grid-template-columns:minmax(0, 1fr) auto auto;
+    /* The markup order is title -> arrow -> metadata (columns 1, 3, 2) because
+       that order is what mobile needs. Default sparse auto-placement never
+       moves backwards, so metadata could not reclaim column 2 and dropped onto
+       a row of its own. Dense lets it fill the hole, so the row is one line. */
+    grid-auto-flow:dense;
+    column-gap:var(--space-32);
+    align-items:baseline;
+  }
+  .row .kicker-line{grid-column:1 / -1}
+  .row .t{grid-column:1}
+  /* Back into its own column: no stacking margin, right-aligned, and kept on
+     one line so it reads as a column rather than a second sentence. */
+  .row .m{grid-column:2;margin-top:0;text-align:right;white-space:nowrap}
+  .row .go{grid-column:3}
+  .row .sub{grid-column:1 / -1}
+}
+
+
+/* ---------- hand-drawn link underline (pen) ----------
+   ONE stroke, reused by every underlined link on the site. This is the PEN
+   gesture: thin, slightly unsteady, drawn once. It is deliberately not the
+   highlighter — the yellow marker behind "understanding people" is a separate,
+   heavier gesture (.hl-mark).
+   Painted as a background rather than a border so it never changes the line
+   box, and so hover can thicken it without shifting a single glyph. */
+.penline,
+.lede a,
+.prose a,
+.aside-note-link,
+.quote-source a{
+  background-image:url("img/pen-underline.svg");
+  background-repeat:no-repeat;
+  background-position:0 100%;
+  background-size:100% .34em;
+  padding-bottom:.14em;
+  transition:background-size .15s ease;
+}
+/* On by default rather than hover-only: on touch there is no hover, and the
+   underline is the only thing marking these as links. Hover/focus thickens
+   the same stroke instead of introducing a different affordance. */
+.penline:hover,.penline:focus-visible,
+.lede a:hover,.lede a:focus-visible,
+.prose a:hover,.prose a:focus-visible,
+.aside-note-link:hover,.aside-note-link:focus-visible,
+.quote-source a:hover,.quote-source a:focus-visible{background-size:100% .42em}
+.penline:focus-visible,
+.lede a:focus-visible,
+.prose a:focus-visible,
+.aside-note-link:focus-visible,
+.quote-source a:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+
+/* ---------- hover / focus on a paper ground ----------
+   Orange never becomes the text colour here: #FF6C00 on #F8F5F2 is 2.6:1, and
+   a hover that REDUCES legibility is the wrong trade. The text stays dark and
+   the orange arrives as the pen stroke underneath — the accent moves from the
+   glyphs to the rule. Links that already show the stroke simply thicken it
+   (see .penline); these three reveal it from zero. */
+nav.main a,.sechead .more,footer.site .social a{
+  background-image:url("img/pen-underline.svg");
+  background-repeat:no-repeat;
+  background-position:0 100%;
+  background-size:100% 0;
+  padding-bottom:.14em;
+  transition:background-size .15s ease;
+}
+nav.main a:hover,nav.main a:focus-visible,
+.sechead .more:hover,.sechead .more:focus-visible,
+footer.site .social a:hover,footer.site .social a:focus-visible{background-size:100% .34em}
+nav.main a:focus-visible,.sechead .more:focus-visible,footer.site .social a:focus-visible{
+  outline:2px solid var(--ink);outline-offset:3px;
 }
 
 .aside-note{margin-top:var(--space-32);font-family:var(--font-grotesk);font-size:var(--type-aside-size);color:var(--dim)}
-.aside-note-link{border-bottom:1.5px solid var(--orange)}
 
 /* ---------- portrait figure ----------
    A vertical portrait must not be forced into the 16:9 landscape frame that
@@ -158,10 +368,9 @@ figure.portrait{margin:var(--space-72) 0 0;max-width:var(--portrait-w)}
 figure.portrait img{width:100%;height:auto;aspect-ratio:auto;object-fit:contain}
 
 /* ---------- prose (about) ---------- */
-.prose{max-width:var(--measure);font-family:var(--font-grotesk);font-size:var(--type-body-size);line-height:var(--type-body-leading);color:var(--slate)}
+.prose{max-width:var(--measure);font-family:var(--font-grotesk);font-size:var(--type-body-fluid);line-height:var(--type-body-leading-ratio);color:var(--slate)}
 .prose p+p{margin-top:var(--space-16)}
-.prose a{border-bottom:1.5px solid var(--orange)}
-.prose a:hover{color:var(--orange)}
+
 
 /* ---------- form (contact) ----------
    Rules, not boxes: an input is a line you write on, matching the editorial
@@ -188,7 +397,8 @@ figure.portrait img{width:100%;height:auto;aspect-ratio:auto;object-fit:contain}
 
 .submit{
   display:inline-block;border:0;cursor:pointer;
-  background:var(--orange);color:var(--rail);
+  /* slate on orange: white was 2.84:1 */
+  background:var(--orange);color:var(--slate);
   font-family:var(--font-label);font-weight:900;font-size:var(--type-label-size);
   letter-spacing:var(--type-label-tracking);text-transform:uppercase;
   padding:var(--space-16) var(--space-32);border-radius:0;
@@ -201,8 +411,11 @@ figure.portrait img{width:100%;height:auto;aspect-ratio:auto;object-fit:contain}
 .form-status.is-ok{color:var(--oak)}
 
 /* about / contact section rhythm */
-#route{padding-top:var(--space-72)}
-#besides{padding-top:var(--space-96);padding-bottom:var(--space-8)}
+/* About's major narrative sections all sit on the same boundary gap. The
+   section-heading component itself is untouched — this is the space BETWEEN
+   sections, not inside them. */
+#how-i-think,#at-figma,#route,#besides,#about-links{padding-top:var(--gap-section-major)}
+#besides,#about-links{padding-bottom:var(--space-8)}
 #contact-form{padding-top:var(--space-72)}
 #elsewhere-contact{padding-top:var(--space-96);padding-bottom:var(--space-8)}
 
@@ -249,14 +462,22 @@ figure.portrait img{width:100%;height:auto;aspect-ratio:auto;object-fit:contain}
 .media-card .zoomframe{aspect-ratio:1/1}
 .media-card .zoomframe img{width:100%;height:100%;object-fit:cover}
 .media-label{font-family:var(--font-label);font-weight:900;font-size:var(--type-label-size);letter-spacing:var(--type-label-tracking);color:var(--orange);text-transform:uppercase;margin-top:var(--space-16)}
-.media-card-title{font-family:var(--font-serif);font-weight:500;font-size:var(--type-row-title-size);line-height:1.25;color:var(--ink);margin-top:var(--space-8)}
+/* Same anatomy as an editorial row: title left, action mark at the far right,
+   in its own element so a wrapping title never reflows around it. */
+.media-card-title{
+  display:flex;align-items:baseline;justify-content:space-between;gap:var(--space-16);
+  font-family:var(--font-serif);font-weight:500;font-size:var(--type-row-title-size);
+  line-height:1.25;color:var(--ink);margin-top:var(--space-8);
+}
+.media-card-title .go{flex:none}
+.media-card:hover .go{color:var(--orange)}
 .media-card:hover .media-card-title{color:var(--orange)}
 
 /* ---------- footer (outside Figma-node scope) ---------- */
 footer.site{border-top:1px solid var(--rule-strong);margin-top:var(--space-96);padding:var(--space-32) var(--space-16) var(--space-48) calc(var(--content-start) - var(--rail-width));display:flex;flex-wrap:wrap;gap:var(--space-16);justify-content:space-between;align-items:center}
 .fineprint{font-family:var(--font-grotesk);font-weight:500;font-size:var(--type-label-size);color:var(--muted)}
-footer.site .social a{margin-left:18px}
-footer.site .social a:hover{color:var(--orange)}
+footer.site .social a{margin-left:var(--space-16)}
+
 
 @media(prefers-reduced-motion:reduce){
   .zoomframe img{transition:none}
@@ -283,30 +504,90 @@ footer.site .social a:hover{color:var(--orange)}
     --block-inset:var(--space-8);
     --block-marker:var(--space-32);
     --block-header-w:var(--space-32);
-    --block-header-h:var(--space-24-m);
+    --block-header-h:var(--space-32);
     --nav-gap:var(--space-16);
+    /* Masthead steps down, and its leading steps with it so the line box
+       stays on the 8pt grid: 24px, not 19 × 1.5 = 28.5px (off-grid AND
+       sub-pixel). */
+    --type-masthead-size:19px;
+    --type-masthead-leading:24px;
     --intro-max-width:100%;
   }
-  header.site{flex-direction:column;align-items:flex-start;gap:var(--space-16);padding-bottom:var(--space-24-m)}
-  .brand{font-size:19px}
-  nav.main{gap:var(--space-16);flex-wrap:wrap;padding-bottom:0}
+  /* Mobile keeps its original right inset: at this scale the 8px difference
+     reads as even, and this is the version already signed off. */
+  .wrap,header.site{padding-right:var(--space-16)}
+  header.site{flex-direction:row;align-items:center;justify-content:flex-start;gap:var(--space-16);padding-bottom:var(--space-24-m);position:relative;z-index:50}
+  .brand{position:relative;z-index:41}
+
+  /* Nav row is replaced by the hamburger + full-panel menu below — this is
+     the actual fix for ABOUT wrapping onto its own line: there's no longer
+     a horizontal row of five labels fighting for a ~326px column. */
+  nav.main{display:none}
+  .brand-menu{cursor:pointer}
+  .menu-icon{position:relative;width:14px;height:10px;display:block}
+  .menu-icon span{position:absolute;left:0;right:0;height:2px;background:#fff;transition:transform .2s ease}
+  .menu-icon span:first-child{top:0}
+  .menu-icon span:last-child{bottom:0}
+  .brand-menu[aria-expanded="true"] .menu-icon span:first-child{transform:translateY(4px) rotate(45deg)}
+  .brand-menu[aria-expanded="true"] .menu-icon span:last-child{transform:translateY(-4px) rotate(-45deg)}
+  /* Touch target ≥44px without enlarging the visible square: an invisible
+     ::before extends the hit area, the square itself stays 32×32. */
+  .brand-menu::before{
+    content:"";position:absolute;top:50%;left:50%;
+    width:44px;height:44px;transform:translate(-50%,-50%);
+  }
+
+  /* Same technique for the section-marker copy-link control — visible
+     square stays whatever size --block-marker is at this breakpoint. */
+  .tab-copy::before{
+    content:"";position:absolute;top:50%;left:50%;
+    width:44px;height:44px;transform:translate(-50%,-50%);
+  }
+
+  .mobile-nav.is-open{
+    display:flex;flex-direction:column;
+    position:fixed;inset:0;z-index:40;
+    background:var(--paper);
+    padding:calc(var(--space-72) + var(--space-24-m)) var(--space-48) var(--space-48);
+    gap:var(--space-24-m);
+    overflow-y:auto;
+  }
+  .mobile-nav a{
+    font-family:var(--font-label);font-weight:900;
+    font-size:clamp(28px,9vw,40px);
+    letter-spacing:var(--type-label-tracking);
+    color:var(--dim);text-transform:uppercase;
+  }
+  .mobile-nav a:active{color:var(--orange)}
 
   /* vertical rhythm compresses; the hero keeps its scale */
   .hero{padding-top:var(--space-72)}
   figure.full{margin-top:var(--space-48)}
+  /* Opt-in, per photo: the 16:9 reference frame is a desktop crop, and on a
+     3:2 source it shaves ~5% off the top and bottom — enough to cut the Figma
+     logo and the "SYDNEY" lockup out of the Maker Collective shot. Where the
+     whole frame carries meaning, the photo runs at its own ratio on mobile.
+     Deliberately NOT global: the case-study covers are portrait and would go
+     absurdly tall on a phone if they stopped being cropped. */
+  figure.full.natural img,figure.full.natural video{aspect-ratio:auto;height:auto}
   .quote{margin:var(--space-72) auto;max-width:none}
   #writing{padding-top:var(--space-48)}
   #speaking{padding-top:var(--space-48)}
   #work{padding-top:var(--space-72)}
   #media{padding-top:var(--space-48)}
   #elsewhere{padding-top:var(--space-48)}
-  #route,#contact-form{padding-top:var(--space-48)}
-  #besides,#elsewhere-contact{padding-top:var(--space-72)}
+  #contact-form{padding-top:var(--space-48)}
+  #elsewhere-contact{padding-top:var(--space-72)}
   .form,.prose{max-width:100%}
+  /* Same single token, stepped down for the phone. */
+  :root{--gap-section-major:var(--space-128)}
 
-  /* metadata reflows under the title rather than fighting it for width */
-  a.row,div.row{flex-direction:column;align-items:flex-start;gap:var(--space-8);min-height:0;padding:var(--space-16) var(--space-8);margin:0 calc(-1 * var(--space-8))}
-  .row .m{text-align:left;white-space:normal}
+  /* Same stack as desktop — only the frame tightens. */
+  a.row,div.row{padding:var(--space-16) var(--space-8);margin:0 calc(-1 * var(--space-8))}
+  .row .m{line-height:var(--type-row-meta-leading-mobile)}
+  /* A wrapped serif title must read as one unit, not two stacked lines.
+     Size is unchanged — only the leading tightens. */
+  .row .t{line-height:var(--type-row-title-leading-mobile)}
 
   .work-grid{grid-template-columns:1fr;gap:var(--space-48)}
   .media-grid{grid-template-columns:1fr;gap:var(--space-32)}

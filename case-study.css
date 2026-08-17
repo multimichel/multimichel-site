@@ -4,19 +4,23 @@
    still reference tokens.css — nothing hardcoded. */
 
 body.dark{background:var(--dark-bg);color:var(--dark-ink)}
-body.dark .brand{color:var(--dark-ink)}
+body.dark .brand-link{color:var(--dark-ink)}
 body.dark nav.main a{color:var(--dark-dim)}
 body.dark nav.main a:hover{color:var(--orange)}
+body.dark .mobile-nav a{color:var(--dark-dim)}
+body.dark .mobile-nav.is-open{background:var(--dark-bg)}
 body.dark footer.site{border-top-color:var(--dark-rule)}
 body.dark .fineprint{color:var(--dark-dim)}
 body.dark .fineprint a{color:var(--dark-ink);border-bottom:1px solid var(--orange)}
 
-.kicker{
-  display:flex;align-items:center;
-  font-family:var(--font-label);font-weight:900;font-size:var(--type-label-size);letter-spacing:var(--type-label-tracking);
-  color:var(--orange);text-transform:uppercase;margin-bottom:20px;
-}
-.kicker i{width:20px;height:20px;background:var(--orange);display:inline-block;margin-right:16px;flex:none}
+/* Case-study back link — a compact navigation label, not an editorial row,
+   so its arrow stays inline (same exception as "ALL WRITING →"). */
+.cs-back{font-family:var(--font-label);font-weight:900;font-size:var(--type-label-size);letter-spacing:var(--type-label-tracking);margin-bottom:var(--space-32)}
+.cs-back a{color:var(--dark-dim)}
+.cs-back a:hover{color:var(--orange)}
+/* .kicker retired — the case-study eyebrow it styled was replaced by
+   .cs-back, and no element carries the class any more. */
+
 
 /* Opening: the case study gets its own, shorter silence than the homepage —
    the kicker does the work the homepage gives to empty space. */
@@ -25,7 +29,9 @@ body.dark .fineprint a{color:var(--dark-ink);border-bottom:1px solid var(--orang
 .cs .lede{color:var(--dark-dim);font-family:var(--font-grotesk);font-size:var(--type-body-size);line-height:1.35;max-width:640px;margin-top:24px}
 
 /* A full-bleed figure escapes the text column and runs to the page gutters. */
-.cs figure.full.bleed{margin-left:calc(-1 * var(--content-start));margin-right:calc(-1 * var(--gutter-page));border-radius:0}
+/* Both margins cancel rail + padding, so a bleed reaches BOTH page edges.
+   The right previously cancelled only --gutter-page and stopped short. */
+.cs figure.full.bleed{margin-left:calc(-1 * var(--content-start));margin-right:calc(-1 * var(--content-start));border-radius:0}
 
 .cs .next-wrap{margin:96px 0 120px}
 .cs h2{font-family:var(--font-serif);font-weight:500;font-size:clamp(28px,4vw,var(--type-case-title-size));letter-spacing:-.01em;color:var(--dark-ink);margin:64px 0 20px}
@@ -33,11 +39,14 @@ body.dark .fineprint a{color:var(--dark-ink);border-bottom:1px solid var(--orang
 .cs p+p{margin-top:16px}
 .cs p b{color:var(--dark-ink)}
 .cs ul{max-width:680px;margin:16px 0 0 22px;font-family:var(--font-grotesk);font-size:17px;line-height:1.6;color:var(--dark-dim)}
-.cs li{margin-bottom:10px}
+.cs li{margin-bottom:var(--space-8)}
 .cs li b{color:var(--dark-ink)}
 .cs figure.full{background:var(--white);border-radius:4px;overflow:hidden;margin:40px 0 0}
 .cs figure.full img{aspect-ratio:auto;height:auto;object-fit:contain;width:100%}
-.cs figcaption{font-family:var(--font-grotesk);font-weight:500;font-size:var(--type-label-size);letter-spacing:.4px;color:var(--dark-dim);text-transform:uppercase;margin-top:12px}
+/* --dark-dim is tuned for the dark page ground (6.97:1) but these captions
+   sit inside a white figure box, where it collapses to 2.68:1. --muted is the
+   muted tone that still passes on white (5.05:1). */
+.cs figcaption{font-family:var(--font-grotesk);font-weight:500;font-size:var(--type-label-size);letter-spacing:.4px;color:var(--muted);text-transform:uppercase;margin-top:12px}
 
 .stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--dark-rule);border:1px solid var(--dark-rule);margin:40px 0}
 .stat div{background:var(--dark-bg);padding:24px}
@@ -54,9 +63,9 @@ body.dark .fineprint a{color:var(--dark-ink);border-bottom:1px solid var(--orang
 .cs .imgrid.cols-2{grid-template-columns:1fr 1fr}
 .cs .imgrid.cols-3{grid-template-columns:repeat(3,1fr)}
 .cs .imgrid figure{margin:0}
-.cs .imgrid img{width:100%;display:block;background:var(--white);border-radius:4px}
-.cs .imgrid h3{font-family:var(--font-serif);font-weight:500;font-size:19px;color:var(--dark-ink);margin-top:18px}
-.cs .imgrid p{font-family:var(--font-grotesk);font-size:15px;line-height:1.5;margin-top:6px;color:var(--dark-dim);max-width:none}
+.cs .imgrid img{width:100%;height:auto;display:block;background:var(--white);border-radius:4px}
+.cs .imgrid h3{font-family:var(--font-serif);font-weight:500;font-size:19px;color:var(--dark-ink);margin-top:var(--space-16)}
+.cs .imgrid p{font-family:var(--font-grotesk);font-size:var(--type-sub-size);line-height:1.5;margin-top:var(--space-8);color:var(--dark-dim);max-width:none}
 
 .cs video{width:100%;display:block;background:#000;border-radius:4px;margin:40px 0}
 

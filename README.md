@@ -14,7 +14,7 @@ python3 -m http.server 8080
 | `tokens.css` | **The only place visual values live.** Colour, type, spacing, grid. Loaded first, once. |
 | `multimichel.css` | Page styles. References tokens, defines nothing itself. |
 | `case-study.css` | Dark theme for the two case-study pages. |
-| `grid-overlay.css/.js` | Spec overlay — press `G` or use the toggle. |
+| `grid-overlay.css/.js` | Spec overlay — **press `G`**. Dev tool: hidden until summoned, and nothing renders for a visitor who never presses the key. |
 | `content.js` | Content graph (`window.MM`): experience + every item. Writing, Speaking and Around-the-internet all render from it. |
 
 Pages: `index.html`, `about.html`, `contact.html`, `work-atlassian.html`,

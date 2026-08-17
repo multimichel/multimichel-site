@@ -1,14 +1,41 @@
-/* Spec overlay — press G, or use the toggle. Proves the page is built to the
-   8px scale and that the rail, content column and blocks land where the
-   tokens say. Every value here reads from tokens.css; nothing is redrawn by
-   hand, so if the overlay and the design disagree, the design is wrong. */
+/* Spec overlay — a BUILD-TIME tool, not part of the site. Proves the page is
+   built to the 8px scale and that the rail, content column and blocks land
+   where the tokens say. Every value here reads from tokens.css; nothing is
+   redrawn by hand, so if the overlay and the design disagree, the design is
+   wrong.
+
+   Hidden by default: press G to summon it. Nothing about it renders for a
+   visitor who never presses the key. The toggle button only appears WHILE the
+   overlay is on, so there is still a way to dismiss it by pointer/touch once
+   it has been summoned — it just never sits on the shipped page. */
 
 .gridtoggle{
+  display:none;
   position:fixed;right:var(--space-16);bottom:var(--space-16);z-index:9999;
   font-family:var(--font-label);font-weight:900;font-size:11px;letter-spacing:1.1px;text-transform:uppercase;
   background:var(--ink);color:var(--rail);border:0;border-radius:2px;
   padding:var(--space-8) 10px;cursor:pointer;opacity:.35;transition:opacity .15s;
 }
+body.grid-on .gridtoggle{display:block}
+
+/* ---------- square-geometry A/B ----------
+   Flips the desktop marker rail back to the pre-trial values so the two can be
+   compared directly. Overrides the tokens on <body>, which every var() lookup
+   inherits, and is scoped to desktop so the (already correct) mobile geometry
+   is never touched. Dev-only, same as the overlay: hidden until summoned. */
+@media(min-width:901px){
+  body.geo-legacy{--content-start:96px;--block-inset:16px}
+}
+.geotoggle{
+  display:none;
+  position:fixed;right:var(--space-16);bottom:calc(var(--space-16) + 34px);z-index:9999;
+  font-family:var(--font-label);font-weight:900;font-size:11px;letter-spacing:1.1px;text-transform:uppercase;
+  background:var(--ink);color:var(--rail);border:0;border-radius:2px;
+  padding:var(--space-8) 10px;cursor:pointer;opacity:.35;transition:opacity .15s;
+}
+body.grid-on .geotoggle{display:block}
+.geotoggle:hover{opacity:1}
+.geotoggle[aria-pressed="true"]{opacity:1;background:#0A84FF}
 .gridtoggle:hover,.gridtoggle[aria-pressed="true"]{opacity:1}
 .gridtoggle[aria-pressed="true"]{background:var(--orange)}
 

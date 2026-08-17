@@ -3,37 +3,61 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Work, writing, talks, interviews, videos and experiments — a chronological record of what Michel Ferreira has made, shipped, shared or been part of since 1998.">
 <title>Archive — MultiMichel</title>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400..700&family=Archivo:wght@400..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="multimichel.css">
+<!-- tokens.css carries both the design tokens AND the @font-face rules — without
+     it every var() below falls back to browser defaults. It must load first. -->
+<meta property="og:title" content="Archive — Michel Ferreira">
+<meta property="og:description" content="Work, writing, talks, interviews, videos and experiments — a chronological record of what Michel Ferreira has made, shipped, shared or been part of since 1998.">
+<link rel="stylesheet" href="tokens.css?v=39">
+<link rel="stylesheet" href="multimichel.css?v=39">
 <style>
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 8px}
-.filters button{font-family:var(--sans);font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:8px 14px;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
+.archive-head{padding-bottom:var(--space-16)}
+/* The archive H1 runs a step smaller than a page hero — it sits above an
+   index, not a statement. */
+.archive-head h1.display{font-size:clamp(44px,7vw,96px)}
+.filters{display:flex;flex-wrap:wrap;gap:var(--space-8);margin:var(--space-32) 0 var(--space-8)}
+.filters button{font-family:var(--font-label);font-size:var(--type-chip-size);font-weight:900;letter-spacing:var(--type-label-tracking);text-transform:uppercase;padding:var(--space-8) 14px;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
 .filters button.on{background:var(--ink);color:var(--paper)}
-.yearhead{font-size:clamp(40px,6vw,72px);font-weight:600;letter-spacing:-.02em;border-bottom:2px solid var(--ink);margin:56px 0 4px;display:flex;align-items:baseline;gap:16px}
-.yearhead small{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--dim)}
-.tag{font-family:var(--sans);font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--paper);background:var(--ink);padding:2px 7px;margin-right:8px;vertical-align:2px}
-.tag.Work{background:var(--orange)}.tag.Talk{background:#8A5A2B}.tag.Podcast{background:#3F6212}.tag.Interview{background:#5B4B8A}.tag.Video{background:#9F1239}.tag.Experiment,.tag.Artifact{background:#555}
-.note{font-size:15px;color:var(--dim);max-width:640px;margin-top:14px}
+.yearhead{font-family:var(--font-serif);font-size:clamp(40px,6vw,72px);font-weight:600;letter-spacing:-.02em;border-bottom:2px solid var(--ink);margin:56px 0 4px;display:flex;align-items:baseline;gap:var(--space-16)}
+.yearhead small{font-family:var(--font-label);font-size:var(--type-chip-size);font-weight:900;letter-spacing:.14em;color:var(--dim)}
+/* Category labels live in multimichel.css as .cat — one lightweight
+   classification chip shared with every other list. The old per-type colour
+   badges (black/brown/green/purple fills, inline before the title) are gone:
+   they read as the loudest thing in the row and competed with the title. */
 </style>
+<link rel="canonical" href="https://multimichel.com/archive">
+<meta property="og:image" content="https://multimichel.com/img/og-default.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://multimichel.com/archive">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#F8F5F2">
 </head>
 <body>
+<a class="skiplink" href="#main">Skip to content</a>
 <header class="site">
-<a class="brand" href="index.html"><i></i>MICHEL FERREIRA</a>
-<nav class="main"><a href="index.html#work">WORK</a><a href="index.html#speaking">SPEAKING</a><a href="index.html#writing">WRITING</a><a href="index.html#listen">LISTEN</a><a href="index.html#about">ABOUT</a></nav>
+<div class="brand"><button class="brand-menu" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu"><span class="menu-icon"><span></span><span></span></span></button><a class="brand-link" href="index.html">MICHEL FERREIRA</a></div>
+<nav class="main"><a href="index.html#work">WORK</a><a href="index.html#speaking">SPEAKING</a><a href="index.html#writing">WRITING</a><a href="index.html#media">MEDIA</a><a href="about.html">ABOUT</a></nav>
+<nav class="mobile-nav" id="mobile-nav" aria-label="Site"><a href="index.html#work">WORK</a><a href="index.html#speaking">SPEAKING</a><a href="index.html#writing">WRITING</a><a href="index.html#media">MEDIA</a><a href="about.html">ABOUT</a><a href="contact.html">CONTACT</a></nav>
 </header>
+<main id="main">
 <div class="wrap" data-screen-label="Archive">
-<section style="padding-bottom:16px">
-<p class="kicker" style="margin-left:44px">The Archive</p>
-<h1 class="display" style="font-size:clamp(44px,7vw,96px)">Everything, by year</h1>
-<p class="lede">Work, writing, talks, episodes, interviews and experiments since 1998 — gathered in one place. This archive is real and therefore incomplete: it holds what can be verified today, and it grows as older material resurfaces.</p>
+<section class="archive-head">
+<p class="eyebrow">Archive</p>
+<h1 class="display">Everything, by year</h1>
+<p class="lede">Work, writing, talks, interviews, videos and experiments — a chronological record of what I’ve made, shipped, shared or been part of since 1998.</p>
 <div class="filters" id="filters"></div>
 </section>
 <div id="list"></div>
-<p class="note" style="margin-bottom:80px">Earlier chapters — agency work in Brazil and California (1998–2007), Album Agency (2007–2013) — are being recovered from Michel's own archives. Provenance for every entry lives in the project's research register.</p>
 </div>
-<footer class="site"><p class="fineprint">MULTIMICHEL © 1998–2026 MICHEL FERREIRA · SYDNEY, AUSTRALIA</p></footer>
-<script src="content.js"></script>
+</main>
+<footer class="site"><p class="fineprint">MULTIMICHEL © 1998–2026 MICHEL FERREIRA · SYDNEY, AUSTRALIA</p><p class="social"><a class="fineprint" href="contact.html">Contact</a></p></footer>
+<script src="content.js?v=39"></script>
+<script src="nav.js?v=39" defer></script>
 <script>
 (function(){
 var types=["All"].concat([...new Set(MM.items.map(i=>i.type))]);
@@ -48,9 +72,27 @@ var byYear={};items.forEach(i=>{(byYear[i.year]=byYear[i.year]||[]).push(i)});
 lEl.innerHTML=Object.keys(byYear).sort((a,b)=>b-a).map(function(y){
 var rows=byYear[y].map(function(i){
 var href=i.href||i.url;
-var t=href?'<a href="'+href+'"'+(i.url?' target="_blank" rel="noopener"':'')+'>'+esc(i.title)+(i.url?' ↗':'')+'</a>':esc(i.title);
-var meta=[i.type.toUpperCase(),i.source,i.city,i.date,i.lang==="pt-BR"?"PT":null].filter(Boolean).join(" · ");
-return '<div class="row"><span><span class="t"><span class="tag '+i.type+'">'+i.type+'</span>'+t+'</span>'+(i.sub?'<p class="sub">'+esc(i.sub)+'</p>':'')+(i.videoNote?'<p class="sub">▶ <a href="'+i.video+'" target="_blank" rel="noopener">'+esc(i.videoNote)+'</a></p>':'')+'</span><span class="m">'+(i.upcoming?'<span class="up">UPCOMING</span> · ':'')+esc(meta)+'</span></div>';
+var isTalk=i.type==="Talk";
+var displayTitle=isTalk?(i.talkTitle||i.eventName):i.title;
+var talkEvent=(isTalk&&i.talkTitle)?i.eventName:null;
+var talkLoc=isTalk?(i.showLocation?i.location:null):i.city;
+var t=href?'<a href="'+href+'"'+MM.linkAttrs(href)+'>'+esc(displayTitle)+'</a>':esc(displayTitle);
+// The type has moved OUT of the metadata sentence and onto its own kicker line,
+// so it is not repeated here.
+// The archive prints full provenance: publication first, then the platform it
+// was hosted on. Home shows only the publication.
+var meta=[i.publication,i.platform,talkEvent,talkLoc,i.date||i.year,i.lang==="pt-BR"?"PT":null].filter(Boolean).join(" · ");
+// Kicker / title / metadata only. The archive is a scannable index — .sub
+// descriptions stay in content.js for the surfaces that use them (case-study
+// cards, homepage rows) but are deliberately not rendered here.
+// UPCOMING outranks the category label when both apply.
+var kicker=(i.status==="upcoming"?'<span class="up">UPCOMING</span> ':'')+'<span class="cat">'+i.type+'</span>';
+return '<div class="row">'
++'<span class="kicker-line">'+kicker+'</span>'
++'<span class="t">'+t+'</span>'
++MM.actionMark(href)
++'<span class="m">'+esc(meta)+'</span>'
++'</div>';
 }).join("");
 return '<div class="yearhead">'+y+'<small>'+byYear[y].length+' ITEM'+(byYear[y].length>1?"S":"")+'</small></div>'+rows;
 }).join("");

@@ -41,11 +41,42 @@
   btn.type = 'button';
   btn.textContent = 'Grid';
   btn.setAttribute('aria-pressed', 'false');
-  btn.title = 'Toggle spec overlay (G)';
+  btn.title = 'Hide spec overlay (G)';
+
+  // Square-geometry A/B. Lives with the overlay because it is a comparison
+  // tool, not site behaviour — it only appears once the overlay is summoned.
+  var geo = document.createElement('button');
+  geo.className = 'geotoggle';
+  geo.type = 'button';
+  geo.setAttribute('aria-pressed', 'false');
+
+  function geoLabel() {
+    var legacy = document.body.classList.contains('geo-legacy');
+    geo.textContent = legacy ? 'Square: old' : 'Square: new';
+    geo.title = 'Compare desktop square geometry (S) — currently '
+              + (legacy ? '16/96, square 88% in the rail' : '40/120, square centred on the seam');
+    geo.setAttribute('aria-pressed', String(legacy));
+  }
+
+  function setGeo(legacy) {
+    document.body.classList.toggle('geo-legacy', legacy);
+    try { localStorage.setItem('mm-geo-legacy', legacy ? '1' : '0'); } catch (e) {}
+    geoLabel();
+  }
 
   document.body.appendChild(layer);
   document.body.appendChild(legend);
   document.body.appendChild(btn);
+  document.body.appendChild(geo);
+
+  // Carry the comparison across page navigations, so the two geometries can be
+  // judged on Archive/About too rather than only wherever the toggle was hit.
+  try { if (localStorage.getItem('mm-geo-legacy') === '1') document.body.classList.add('geo-legacy'); } catch (e) {}
+  geoLabel();
+
+  geo.addEventListener('click', function () {
+    setGeo(!document.body.classList.contains('geo-legacy'));
+  });
 
   // Audit every rendered gap against the 8px scale, live.
   // On-grid means divisible by 8 — not membership of a curated list.
@@ -94,9 +125,13 @@
   });
 
   document.addEventListener('keydown', function (e) {
-    if (e.key !== 'g' && e.key !== 'G') return;
+    var k = e.key;
+    if (k !== 'g' && k !== 'G' && k !== 's' && k !== 'S') return;
     var t = e.target.tagName;
-    if (t === 'INPUT' || t === 'TEXTAREA' || e.metaKey || e.ctrlKey || e.altKey) return;
-    set(!document.body.classList.contains('grid-on'));
+    if (t === 'INPUT' || t === 'TEXTAREA' || t === 'SELECT') return;
+    if (e.target.isContentEditable) return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (k === 'g' || k === 'G') set(!document.body.classList.contains('grid-on'));
+    else setGeo(!document.body.classList.contains('geo-legacy'));
   });
 })();

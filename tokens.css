@@ -49,14 +49,26 @@
   --highlight: #F5C518;    /* hand-drawn quote highlight (verify against Figma) */
 
   /* ---------- TYPE ---------- */
-  /* Masthead — label face, 900, uppercase */
+  /* Masthead — label face, 900, uppercase.
+     Leading is declared in px, not inherited: body's 1.5 ratio is a body-copy
+     value and on 24px produced a 36px line box — off the 8pt grid (36 = 4×8+4).
+     32px puts the masthead's line box back on the grid. This governs the BOX
+     only; Agrandir's caps fill its ascent almost exactly (cap 720 / asc 750)
+     so the visible glyphs still sit high inside it. That is a font metric and
+     is deliberately left alone. */
   --type-masthead-size: 24px;
+  --type-masthead-leading: 32px;
   --type-masthead-tracking: -0.096px;
 
   /* Nav + section labels — label face, 900, uppercase */
   --type-label-size: 13px;
   --type-label-leading: 1.5;
   --type-label-tracking: 1.3px;
+  /* Optical compensation for Agrandir: capHeight 720 of ascent 750 means the
+     caps sit 0.11em high inside their line box. Doubled, because vertical
+     centring halves it. Scales with font-size, so one value serves the 13px
+     section label and the 24px masthead alike. */
+  --cap-optical-shift: 0.22em;
 
   /* Hero — serif Heavy/Black */
   --type-hero-size: 148px;
@@ -65,14 +77,35 @@
   /* Intro body — grotesk Regular (+ Bold for emphasis) */
   --type-body-size: 24px;
   --type-body-leading: 35.5px;
+  /* Running body text is fluid, and every body surface must use the SAME
+     ramp — a fixed 24px next to a clamped one reads as two different type
+     sizes on a phone even though they match on desktop. */
+  --type-body-fluid: clamp(17px, 2vw, 24px);
+  --type-body-leading-ratio: 1.48;
 
   /* Editorial row title — serif Medium */
   --type-row-title-size: 18px;
   --type-row-title-leading: 28.8px;
 
+  /* Chips and micro-labels — the tier BELOW section labels: taxonomy chips,
+     UPCOMING, archive filters, year counts. Was typed as 11px in four places
+     and 11.5px in a fifth. */
+  --type-chip-size: 11px;
+  --type-chip-tracking: 1.1px;
+
+  /* Secondary description under a row title / inside a case-study grid. */
+  --type-sub-size: 15px;
+
   /* Editorial row metadata — grotesk Medium */
   --type-row-meta-size: 14px;
   --type-row-meta-leading: 18px;
+
+  /* Wrapped row titles must read as ONE title, not two lines of prose.
+     Desktop keeps the roomier 28.8px; mobile tightens to a ratio so a
+     two-line serif title stays a single typographic unit. */
+  --type-row-title-leading-mobile: 1.12;
+  --type-row-meta-leading-mobile: 1.25;
+  --gap-row-title-to-meta: 12px;
 
   /* Quote — serif Medium, centered */
   --type-quote-size: 48px;
@@ -92,8 +125,20 @@
      all the way down. 16 · 64 · 16 · 96 — all on the 8pt grid. */
   --canvas-reference: 1496px;  /* desktop viewport the Figma frame targets */
   --gutter-page: 72px;         /* document gutter */
-  --content-start: 96px;       /* primary content inset — one column, everything */
-  --block-inset: 16px;         /* orange block's left edge from the page edge */
+  /* TRIAL — desktop square geometry (option B).
+     The square must straddle the rail/paper seam the way it already does on
+     mobile: 50/50. With the old 16/96 pair it sat 88% in the white rail and
+     clipped the paper by only 8px, because the desktop square (64) is SMALLER
+     than the rail (72) while the mobile square (32) is BIGGER than its rail
+     (24). Moving the block to 40 centres it on the 72px seam (40→104) and the
+     text column follows at 120, keeping the 16px gap and the 72px white rail.
+     Press G then click SQUARE (or press S) to compare against the old values.
+     To revert permanently: content-start 96, block-inset 16. */
+  --content-start: 120px;      /* primary content inset — one column, everything */
+  --block-inset: 40px;         /* orange block's left edge from the page edge */
+  /* The paper's inset from the rail, used on BOTH sides so the left and right
+     edges can never drift apart again. Derived, never typed twice. */
+  --content-inset: calc(var(--content-start) - var(--rail-width));
   --nav-gap: 48px;
 
   /* ---------- RAIL ----------
@@ -111,7 +156,7 @@
 
   /* ---------- ORANGE BLOCKS ---------- */
   --block-header-w: 64px;
-  --block-header-h: 48px;
+  --block-header-h: 64px;      /* full square, matches the section markers */
   --block-marker: 64px;        /* section markers: 64 × 64 */
 
   /* ---------- SPACING SCALE ----------
@@ -124,11 +169,17 @@
   --space-48: 48px;
   --space-72: 72px;
   --space-96: 96px;
+  --space-128: 128px;
   --space-144: 144px;
+  --space-160: 160px;
   --space-192: 192px;
 
   /* ---------- SECTION RHYTHM ---------- */
-  --row-height: 48px;          /* was 59 — off-grid; snapped to the scale */
+  /* --row-height retired: rows are a stacked kicker/title/meta grammar now,
+     so their height comes from content + padding, not a fixed minimum. */
+  /* Breathing room between two MAJOR narrative sections (About). One token,
+     applied to every such boundary — never a per-section margin. */
+  --gap-section-major: var(--space-160);
   --gap-label-to-rows: 32px;   /* WRITING label → first row */
   --gap-writing-to-speaking: 72px;
 

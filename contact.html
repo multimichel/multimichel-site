@@ -7,14 +7,27 @@
 <meta name="description" content="Speaking, workshops, mentoring, or just to say olá. Get in touch with Michel Ferreira.">
 <meta property="og:title" content="Contact — Michel Ferreira">
 <meta property="og:description" content="Speaking, workshops, mentoring, or just to say olá.">
-<link rel="stylesheet" href="tokens.css?v=19">
-<link rel="stylesheet" href="multimichel.css?v=19">
-<link rel="stylesheet" href="grid-overlay.css?v=19">
+<link rel="stylesheet" href="tokens.css?v=39">
+<link rel="stylesheet" href="multimichel.css?v=39">
+<link rel="canonical" href="https://multimichel.com/contact">
+<meta property="og:image" content="https://multimichel.com/img/og-default.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://multimichel.com/contact">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#F8F5F2">
 </head>
 <body>
+<a class="skiplink" href="#main">Skip to content</a>
 
 <header class="site">
-  <a class="brand" href="index.html"><i></i>MICHEL FERREIRA</a>
+  <div class="brand">
+    <button class="brand-menu" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu"><span class="menu-icon"><span></span><span></span></span></button>
+    <a class="brand-link" href="index.html">MICHEL FERREIRA</a>
+  </div>
   <nav class="main">
     <a href="index.html#work">WORK</a>
     <a href="index.html#speaking">SPEAKING</a>
@@ -22,8 +35,17 @@
     <a href="index.html#media">MEDIA</a>
     <a href="about.html">ABOUT</a>
   </nav>
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Site">
+    <a href="index.html#work">WORK</a>
+    <a href="index.html#speaking">SPEAKING</a>
+    <a href="index.html#writing">WRITING</a>
+    <a href="index.html#media">MEDIA</a>
+    <a href="about.html">ABOUT</a>
+    <a href="contact.html">CONTACT</a>
+  </nav>
 </header>
 
+<main id="main">
 <div class="wrap">
 
   <section class="hero">
@@ -36,7 +58,13 @@
   <section id="contact-form">
     <div class="sechead"><i class="tab"></i><h2>Write to me</h2></div>
 
-    <form class="form" id="contact" novalidate>
+    <form class="form" id="contact" action="https://formsubmit.co/michel@multimichel.com" method="POST" novalidate>
+      <!-- FormSubmit config: no captcha redirect loop, readable subject line. -->
+      <input type="hidden" name="_subject" value="multimichel.com — new message">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      <!-- honeypot: bots fill it, people never see it -->
+      <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
       <div class="field">
         <label for="name">Your name</label>
         <input id="name" name="name" type="text" autocomplete="name" required>
@@ -73,34 +101,32 @@
   <section id="elsewhere-contact">
     <div class="sechead"><i class="tab"></i><h2>Or find me</h2></div>
     <div class="rowlist">
-      <a class="row" href="mailto:michel@multimichel.com"><span class="t">michel@multimichel.com</span><span class="m">Email</span></a>
-      <a class="row" href="https://www.linkedin.com/in/michelpferreira/" target="_blank" rel="noopener"><span class="t">michelpferreira</span><span class="m">LinkedIn</span></a>
-      <a class="row" href="https://www.youtube.com/@multimichel" target="_blank" rel="noopener"><span class="t">@multimichel</span><span class="m">YouTube</span></a>
-      <a class="row" href="https://multimichel.medium.com/" target="_blank" rel="noopener"><span class="t">multimichel</span><span class="m">Medium</span></a>
+      <a class="row" href="mailto:michel@multimichel.com"><span class="t">michel@multimichel.com</span><span class="go" aria-hidden="true">↗</span><span class="m">Email</span></a>
+      <a class="row" href="https://www.linkedin.com/in/michelpferreira/" target="_blank" rel="noopener noreferrer"><span class="t">michelpferreira</span><span class="go" aria-hidden="true">↗</span><span class="m">LinkedIn</span></a>
+      <a class="row" href="https://www.youtube.com/@multimichel" target="_blank" rel="noopener noreferrer"><span class="t">@multimichel</span><span class="go" aria-hidden="true">↗</span><span class="m">YouTube</span></a>
+      <a class="row" href="https://multimichel.medium.com/" target="_blank" rel="noopener noreferrer"><span class="t">multimichel</span><span class="go" aria-hidden="true">↗</span><span class="m">Medium</span></a>
     </div>
   </section>
 
 </div>
+</main>
 
 <footer class="site">
   <p class="fineprint">MULTIMICHEL © 1998–2026 MICHEL FERREIRA · SYDNEY, AUSTRALIA</p>
   <p class="social">
-    <a class="fineprint" href="https://www.linkedin.com/in/michelpferreira/" target="_blank" rel="noopener">LinkedIn</a>
-    <a class="fineprint" href="https://multimichel.medium.com/" target="_blank" rel="noopener">Medium</a>
+    <a class="fineprint" href="https://www.linkedin.com/in/michelpferreira/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+    <a class="fineprint" href="https://multimichel.medium.com/" target="_blank" rel="noopener noreferrer">Medium ↗</a>
     <a class="fineprint" href="about.html">About</a>
   </p>
 </footer>
 
-<script src="grid-overlay.js?v=19" defer></script>
+<script src="nav.js?v=39" defer></script>
 <script>
 (function(){
-  // ---------------------------------------------------------------------
-  // ENDPOINT — currently unset, so the form falls back to opening a mail
-  // client with everything pre-filled. Nothing is silently swallowed.
-  // To take real submissions: create a form at https://formspree.io and put
-  // its endpoint here, e.g. "https://formspree.io/f/xxxxxxxx".
-  // ---------------------------------------------------------------------
-  var ENDPOINT = "";
+  // Submits through FormSubmit's AJAX endpoint so the visitor never leaves the
+  // page. The <form> also carries a real action/method, so if this script fails
+  // to load the browser still posts the message the ordinary way.
+  var ENDPOINT = "https://formsubmit.co/ajax/michel@multimichel.com";
   var FALLBACK_TO = "michel@multimichel.com";
 
   var form = document.getElementById('contact');
@@ -147,16 +173,6 @@
       message: form.elements.message.value.trim()
     };
 
-    if(!ENDPOINT){
-      // No backend wired yet — hand off to the user's mail client rather than
-      // pretending the message went somewhere.
-      var subject = encodeURIComponent(data.topic + ' — ' + data.name);
-      var body = encodeURIComponent(data.message + '\n\n— ' + data.name + '\n' + data.email);
-      window.location.href = 'mailto:' + FALLBACK_TO + '?subject=' + subject + '&body=' + body;
-      status.textContent = 'Opening your email app…';
-      return;
-    }
-
     var btn = form.querySelector('.submit');
     btn.disabled = true;
     status.textContent = 'Sending…';
@@ -167,6 +183,8 @@
       body: JSON.stringify(data)
     }).then(function(res){
       if(!res.ok) throw new Error(res.status);
+      return res.json();
+    }).then(function(){
       form.reset();
       status.textContent = 'Sent. I’ll get back to you.';
       status.classList.add('is-ok');

@@ -7,39 +7,73 @@
 <meta name="description" content="Michel Ferreira — Designer Advocate at Figma. Brazil, Amsterdam, Canada, Sydney. Building things on the web since 1998.">
 <meta property="og:title" content="About — Michel Ferreira">
 <meta property="og:description" content="Designer Advocate at Figma. Brazil, Amsterdam, Canada, Sydney. Building things on the web since 1998.">
-<link rel="stylesheet" href="tokens.css?v=19">
-<link rel="stylesheet" href="multimichel.css?v=19">
-<link rel="stylesheet" href="grid-overlay.css?v=19">
+<link rel="stylesheet" href="tokens.css?v=39">
+<link rel="stylesheet" href="multimichel.css?v=39">
+<link rel="canonical" href="https://multimichel.com/about">
+<meta property="og:image" content="https://multimichel.com/img/og-default.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://multimichel.com/about">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#F8F5F2">
 </head>
 <body>
+<a class="skiplink" href="#main">Skip to content</a>
 
 <header class="site">
-  <a class="brand" href="index.html"><i></i>MICHEL FERREIRA</a>
+  <div class="brand">
+    <button class="brand-menu" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu"><span class="menu-icon"><span></span><span></span></span></button>
+    <a class="brand-link" href="index.html">MICHEL FERREIRA</a>
+  </div>
   <nav class="main">
     <a href="index.html#work">WORK</a>
     <a href="index.html#speaking">SPEAKING</a>
     <a href="index.html#writing">WRITING</a>
     <a href="index.html#media">MEDIA</a>
-    <a href="about.html">ABOUT</a>
+    <a href="about.html" aria-current="page">ABOUT</a>
+  </nav>
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Site">
+    <a href="index.html#work">WORK</a>
+    <a href="index.html#speaking">SPEAKING</a>
+    <a href="index.html#writing">WRITING</a>
+    <a href="index.html#media">MEDIA</a>
+    <a href="about.html" aria-current="page">ABOUT</a>
+    <a href="contact.html">CONTACT</a>
   </nav>
 </header>
 
+<main id="main">
 <div class="wrap">
 
   <section class="hero">
-    <h1 class="display">The scenic route</h1>
+    <h1 class="display">It only looks like a straight line in hindsight.</h1>
     <div class="lede">
-      <p>I&rsquo;m Michel Ferreira. Brazilian, Sydney-based, Designer Advocate at <b><a href="https://www.figma.com" target="_blank" rel="noopener">Figma</a></b>. I&rsquo;ve been building things on the web since 1998, which is long enough to have been wrong about most of it at least once.</p>
-      <p>I got here the long way around: an Apple II at eight years old, design agencies in Brazil and California, then <b>Booking.com</b> in Amsterdam, <b>Shopify</b> in Canada, <b>Atlassian</b> and <b>Xero</b> in Sydney. Five countries, one job title that keeps changing shape.</p>
+      <p>I&rsquo;m Michel, a Brazilian designer living in Sydney. I&rsquo;ve been designing for the web since the late &rsquo;90s. On paper the route runs from early web work in Brazil to California, <b>Booking.com</b> in Amsterdam, <b>Shopify</b> in Canada, and <b>Atlassian</b>, <b>Xero</b> and <b><a href="https://www.figma.com" target="_blank" rel="noopener noreferrer">Figma</a></b> in Sydney. It looks much tidier written down than it ever felt living it.</p>
     </div>
   </section>
 
-  <figure class="portrait">
-    <img src="img/about-portrait.jpg" alt="Michel Ferreira, smiling to camera in a green Maker cap and blue Figma hoodie">
+  <figure class="full">
+    <img width="1066" height="1600" src="img/about-portrait.jpg" alt="Michel Ferreira, smiling to camera in a green Maker cap and blue Figma hoodie">
     <figcaption>Sydney, 2026</figcaption>
   </figure>
 
-  <p class="quote">&ldquo;Design is the labour of <span class="hl"><img class="hl-mark" src="img/highlight.svg" alt="" aria-hidden="true">understanding people</span>&rdquo;</p>
+  <section id="how-i-think">
+    <div class="sechead"><i class="tab"></i><h2>How I think</h2></div>
+    <div class="prose">
+      <p>What&rsquo;s changed is the job title. What hasn&rsquo;t is what I pay attention to. I care about the user&rsquo;s actual problem, but also how it connects to the larger product, the system underneath it, and how a team makes decisions under a deadline. And I care about what finally shows up on screen once all of that gets built &mdash; the interaction, the type, the spacing, the component. Not because pixels are precious on their own, but because that&rsquo;s exactly where every decision made upstream either holds up or falls apart.</p>
+    </div>
+  </section>
+
+  <section id="at-figma">
+    <div class="sechead"><i class="tab"></i><h2>At Figma</h2></div>
+    <div class="prose">
+      <p>At Figma, I sit between the product and the people using it. I learn and stress-test new capabilities before they ship, work with customers to understand how their teams actually design, and bring what I learn back into the product.</p>
+      <p>That also means workshops, talks and practical guidance on design systems and AI-native workflows. The job title is different, but the work is familiar: understand the whole system, help people make better decisions, and make the product better because of it.</p>
+    </div>
+  </section>
 
   <section id="route">
     <div class="sechead"><i class="tab"></i><h2>The route</h2></div>
@@ -49,26 +83,34 @@
   <section id="besides">
     <div class="sechead"><i class="tab"></i><h2>Besides the work</h2></div>
     <div class="prose">
-      <p>Husband, father of three, full-time goofball, and — on the record — still available for the NBA draft.</p>
-      <p>I host <a href="https://open.spotify.com/show/0J3JdhM454AvedlYlXqeRZ" target="_blank" rel="noopener">Latinxs Who Design</a>, a podcast about Latinx designers thriving in this industry. I teach a portfolio and career course, and I&rsquo;ve mentored more than a hundred designers across ten-odd countries — through <a href="https://mentorcruise.com/mentor/michelferreira/" target="_blank" rel="noopener">MentorCruise</a>, <a href="https://adplist.org/mentors/michel-ferreira" target="_blank" rel="noopener">ADPList</a>, and as a Design Leadership ambassador with Echos.</p>
-      <p>I write when something has been bothering me long enough to become an argument. Most of it ends up at <a href="https://alistapart.com/article/design-dialects-breaking-the-rules-not-the-system/" target="_blank" rel="noopener">A List Apart</a> or on <a href="https://multimichel.medium.com/" target="_blank" rel="noopener">Medium</a>.</p>
-      <p class="aside-note">Want to talk? <a href="contact.html" class="aside-note-link">Get in touch.</a></p>
+      <p>Off the clock: husband, father of three, full-time goofball, and &mdash; on the record &mdash; still available for the NBA draft, if my baseball cap collection doesn&rsquo;t give the vibe away first.</p>
+      <p>I host <a href="https://open.spotify.com/show/0J3JdhM454AvedlYlXqeRZ" target="_blank" rel="noopener noreferrer">Latinxs Who Design</a>, a podcast about Latinx designers thriving in this industry. I teach a portfolio and career course, and I&rsquo;ve mentored more than a hundred designers across ten-odd countries &mdash; through <a href="https://mentorcruise.com/mentor/michelferreira/" target="_blank" rel="noopener noreferrer">MentorCruise</a>, <a href="https://adplist.org/mentors/michel-ferreira" target="_blank" rel="noopener noreferrer">ADPList</a>, and as a Design Leadership ambassador with Echos.</p>
+      <p>I write when something has been bothering me long enough to become an argument. Most of it ends up at <a href="https://alistapart.com/article/design-dialects-breaking-the-rules-not-the-system/" target="_blank" rel="noopener noreferrer">A List Apart</a> or on <a href="https://multimichel.medium.com/" target="_blank" rel="noopener noreferrer">Medium</a>.</p>
+    </div>
+  </section>
+
+  <section id="about-links">
+    <div class="sechead"><i class="tab"></i><h2>Elsewhere</h2></div>
+    <div class="rowlist">
+      <a class="row" href="https://www.linkedin.com/in/michelpferreira/" target="_blank" rel="noopener noreferrer"><span class="t">LinkedIn</span><span class="go" aria-hidden="true">↗</span><span class="m">Profile</span></a>
+      <a class="row" href="contact.html"><span class="t">Get in touch</span><span class="go" aria-hidden="true">→</span><span class="m">Contact</span></a>
     </div>
   </section>
 
 </div>
+</main>
 
 <footer class="site">
   <p class="fineprint">MULTIMICHEL © 1998–2026 MICHEL FERREIRA · SYDNEY, AUSTRALIA</p>
   <p class="social">
-    <a class="fineprint" href="https://www.linkedin.com/in/michelpferreira/" target="_blank" rel="noopener">LinkedIn</a>
-    <a class="fineprint" href="https://multimichel.medium.com/" target="_blank" rel="noopener">Medium</a>
+    <a class="fineprint" href="https://www.linkedin.com/in/michelpferreira/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+    <a class="fineprint" href="https://multimichel.medium.com/" target="_blank" rel="noopener noreferrer">Medium ↗</a>
     <a class="fineprint" href="contact.html">Contact</a>
   </p>
 </footer>
 
-<script src="content.js?v=19"></script>
-<script src="grid-overlay.js?v=19" defer></script>
+<script src="content.js?v=39"></script>
+<script src="nav.js?v=39" defer></script>
 <script>
 (function(){
   function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;")}
@@ -76,14 +118,27 @@
   // role on the left, where and when on the right. No provenance, no notes.
   var list = MM.experience.map(function(e){
     // Dates are patchy in the graph on purpose — render what's known, never
-    // a dangling en-dash or a bare "present".
+    // a dangling en-dash or a bare "present". A single-year stint shows the
+    // year once rather than as "2025–2025".
+    // Month-level throughout, so the 2025 sequence reads as a sequence rather
+    // than three entries flattened onto the same year. When a stint starts and
+    // ends in one year the year is printed once: "Mar–Sep 2025".
     var when;
-    if (e.end === "present") when = e.start ? e.start + " – now" : "Now";
-    else if (e.start && e.end)  when = e.start + "–" + e.end;
-    else                        when = e.start || e.end || "";
+    var sy = (e.start || "").split(" ")[1], ey = (e.end || "").split(" ")[1];
+    if (e.end === "present")   when = e.start ? e.start + "–Now" : "Now";
+    else if (sy && sy === ey)  when = e.start.split(" ")[0] + "–" + e.end;
+    else if (e.start && e.end) when = e.start + "–" + e.end;
+    else                       when = e.start || e.end || "";
     var meta = [e.city, when].filter(Boolean).join(" · ");
+    // Every entry is ONE typographic title — a role spanning two titles reads
+    // as a single line ("Senior Product Designer — Design Manager") and may
+    // wrap, but never becomes a title plus a secondary role line.
     return '<div class="row"><span class="t">'+esc(e.company)+' — '+esc(e.role)+'</span><span class="m">'+esc(meta)+'</span></div>';
   }).join("");
+  // Everything before Album Agency lives on LinkedIn — linked, never restated
+  // here as a synthetic "early web & design" catch-all row.
+  var earlier = "https://www.linkedin.com/in/michelpferreira/";
+  list += '<a class="row" href="'+earlier+'"'+MM.linkAttrs(earlier)+'><span class="t">Earlier roles since 1998</span>'+MM.actionMark(earlier)+'<span class="m">LinkedIn</span></a>';
   document.getElementById("route-list").innerHTML = list;
 })();
 </script>

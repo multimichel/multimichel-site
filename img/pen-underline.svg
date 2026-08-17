@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 10" preserveAspectRatio="none" fill="none">
+<!-- One pen stroke, drawn once, slightly off the baseline. Deliberately not a
+     rounded rect and not a brush: thin, a little unsteady, ends slightly
+     lighter as a real pen lifts. Stretched horizontally by background-size,
+     so the wobble reads at any link width. -->
+<path d="M1.5 6.4C22 5.1 43 6.9 64 5.6C85 4.4 106 6.6 127 5.4C148 4.3 169 6.8 190 5.7C211 4.7 232 6.3 253 5.2C268 4.4 283 6.0 298.5 4.9"
+      stroke="#FF6C00" stroke-width="1.7" stroke-linecap="round"/>
+</svg>

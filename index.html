@@ -7,14 +7,27 @@
 <meta name="description" content="Michel Ferreira — designer, speaker, podcaster, writer. Designer Advocate at Figma. Building things on the web since 1998.">
 <meta property="og:title" content="MultiMichel — Michel Ferreira">
 <meta property="og:description" content="Designer, speaker, podcaster, writer. Building things on the web since 1998.">
-<link rel="stylesheet" href="tokens.css?v=19">
-<link rel="stylesheet" href="multimichel.css?v=19">
-<link rel="stylesheet" href="grid-overlay.css?v=19">
+<link rel="stylesheet" href="tokens.css?v=39">
+<link rel="stylesheet" href="multimichel.css?v=39">
+<link rel="canonical" href="https://multimichel.com/">
+<meta property="og:image" content="https://multimichel.com/img/og-default.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://multimichel.com/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#F8F5F2">
 </head>
 <body>
+<a class="skiplink" href="#main">Skip to content</a>
 
 <header class="site">
-  <a class="brand" href="index.html"><i></i>MICHEL FERREIRA</a>
+  <div class="brand">
+    <button class="brand-menu" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu"><span class="menu-icon"><span></span><span></span></span></button>
+    <a class="brand-link" href="index.html">MICHEL FERREIRA</a>
+  </div>
   <nav class="main">
     <a href="#work">WORK</a>
     <a href="#speaking">SPEAKING</a>
@@ -22,30 +35,36 @@
     <a href="#media">MEDIA</a>
     <a href="about.html">ABOUT</a>
   </nav>
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Site">
+    <a href="#work">WORK</a>
+    <a href="#speaking">SPEAKING</a>
+    <a href="#writing">WRITING</a>
+    <a href="#media">MEDIA</a>
+    <a href="about.html">ABOUT</a>
+    <a href="contact.html">CONTACT</a>
+  </nav>
 </header>
 
+<main id="main">
 <div class="wrap">
 
   <section class="hero">
     <h1 class="display">Olá &amp; Welcome</h1>
     <div class="lede">
-      <p>I&rsquo;m Michel. I&rsquo;ve been designing digital products for nearly 30 years, through agencies, <b>Booking.com</b>, <b>Shopify</b>, <b>Atlassian</b> and <b>Xero</b>, and today as a Designer Advocate at <b><a href="https://www.figma.com" target="_blank" rel="noopener">Figma</a></b>.</p>
-      <p>I wear a lot of hats — and I don&rsquo;t mean my extensive baseball cap collection. The one thing that&rsquo;s stayed the same is that I care about the whole product.</p>
-      <p>I care about whether we&rsquo;re asking the right question and solving something that matters to people. I care about how products connect, how teams make decisions, and whether the systems underneath them help or get in the way. And I care about what finally shows up on the screen — the interaction, the component, the type, the spacing, the pixels.</p>
-      <p>Because the person using the product might never see most of those decisions. They feel all of them.</p>
+      <p>I&rsquo;m Michel Ferreira. I&rsquo;ve been designing digital products for nearly 30 years, through design agencies, <b>Booking.com</b>, <b>Shopify</b> and <b>Atlassian</b>, and today as a Designer Advocate at <b><a href="https://www.figma.com" target="_blank" rel="noopener noreferrer">Figma</a></b>.</p>
+      <p>I care about the whole product and how it gets made. Whether we&rsquo;re asking the right question, how the pieces connect, how teams make decisions, and what eventually shows up on screen: the interaction, the type, the spacing, the pixels. The person using it may never see most of those decisions. They feel all of them.</p>
     </div>
   </section>
 
-  <figure class="full">
-    <img src="img/hero-speaking.jpg" alt="Michel Ferreira speaking at Maker Collective Sydney, laptop with a Figma sticker visible on the podium">
+  <figure class="full natural">
+    <img width="2000" height="1333" src="img/hero-speaking.jpg" alt="Michel Ferreira speaking at Maker Collective Sydney, laptop with a Figma sticker visible on the podium">
     <figcaption>On stage — Maker Collective, Sydney</figcaption>
   </figure>
 
   <figure class="quote-block">
-    <blockquote class="quote">&ldquo;Design is the labour of <span class="hl"><img class="hl-mark" src="img/highlight.svg" alt="" aria-hidden="true">understanding people</span>&rdquo;</blockquote>
+    <blockquote class="quote"><span class="quote-mark">&ldquo;</span>Design is the labour of <span class="quote-tail"><span class="hl"><img class="hl-mark" src="img/highlight.svg" alt="" aria-hidden="true">understanding people</span><span class="quote-mark">&rdquo;</span></span></blockquote>
     <figcaption class="quote-source">
-      From <cite>Fast &ne; Good</cite> — a talk about speed, quality, and why understanding people is still the work.
-      <a href="https://multimichel.medium.com/fast-good-80a9af2f0fb8" target="_blank" rel="noopener">Watch the talk →</a>
+      From <cite>Fast &ne; Good</cite> · <a href="https://conffab.com/presentation/fast-≠-good/?gl=5ulxY9lWmOlu" target="_blank" rel="noopener noreferrer">Watch the talk ↗</a>
     </figcaption>
   </figure>
 
@@ -64,12 +83,12 @@
     <div class="sechead"><i class="tab"></i><h2>Work</h2><a class="more" href="archive.html#Work">All work →</a></div>
     <div class="work-grid">
       <a class="work-card" href="work-atlassian.html">
-        <div class="zoomframe"><img src="img/work-atlassian-cover.png" alt="Annotated Atlassian Jira navigation diagram: top bar, sidebar, product and global navigation, container navigation" style="object-position:center 22%"></div>
+        <div class="zoomframe"><img loading="lazy" decoding="async" width="1600" height="1354" src="img/work-atlassian-cover.png" alt="Annotated Atlassian Jira navigation diagram: top bar, sidebar, product and global navigation, container navigation" style="object-position:center 22%"></div>
         <div class="work-label">Case study</div>
         <div class="work-card-title"><img class="brush" src="img/highlight-white.svg" alt="" aria-hidden="true">Jira Nav to Atlassian&rsquo;s System of Work</div>
       </a>
       <a class="work-card" href="work-booking.html">
-        <div class="zoomframe"><img src="img/work-booking-cover.png" alt="Booking.com cancellation policy screen on a phone mockup" style="object-position:center 30%"></div>
+        <div class="zoomframe"><img loading="lazy" decoding="async" width="1028" height="1548" src="img/work-booking-cover.png" alt="Booking.com cancellation policy screen on a phone mockup" style="object-position:center 30%"></div>
         <div class="work-label">Case study</div>
         <div class="work-card-title"><img class="brush" src="img/highlight-white.svg" alt="" aria-hidden="true">Helping Booking.com&rsquo;s Help Center</div>
       </a>
@@ -79,20 +98,20 @@
   <section id="media">
     <div class="sechead"><i class="tab"></i><h2>Media</h2></div>
     <div class="media-grid">
-      <a class="media-card" href="https://www.youtube.com/watch?v=4Nk0ray32i0" target="_blank" rel="noopener">
-        <div class="zoomframe"><img src="img/generate-london-2016.jpg" alt="Michel Ferreira speaking at Generate Conference, London 2016" style="object-position:22% 38%"></div>
+      <a class="media-card" href="https://www.youtube.com/watch?v=4Nk0ray32i0" target="_blank" rel="noopener noreferrer">
+        <div class="zoomframe"><img loading="lazy" decoding="async" width="1400" height="934" src="img/generate-london-2016.jpg" alt="Michel Ferreira speaking at Generate Conference, London 2016" style="object-position:22% 38%"></div>
         <div class="media-label">Talk · YouTube</div>
-        <div class="media-card-title">The Science of Good Design — Generate, London 2016</div>
+        <div class="media-card-title"><span>The Science of Good Design — Generate, London 2016</span><span class="go" aria-hidden="true">↗</span></div>
       </a>
-      <a class="media-card" href="https://open.spotify.com/show/0J3JdhM454AvedlYlXqeRZ" target="_blank" rel="noopener">
-        <div class="zoomframe"><img src="img/media-latinxs.jpg" alt="Michel Ferreira recording an interview for Latinxs Who Design"></div>
+      <a class="media-card" href="https://open.spotify.com/show/0J3JdhM454AvedlYlXqeRZ" target="_blank" rel="noopener noreferrer">
+        <div class="zoomframe"><img loading="lazy" decoding="async" width="640" height="640" src="img/media-latinxs.jpg" alt="Michel Ferreira recording an interview for Latinxs Who Design"></div>
         <div class="media-label">Podcast</div>
-        <div class="media-card-title">Latinxs Who Design</div>
+        <div class="media-card-title"><span>Latinxs Who Design</span><span class="go" aria-hidden="true">↗</span></div>
       </a>
-      <a class="media-card" href="https://open.spotify.com/artist/4h20EEaSsJha8OKMiTfINg" target="_blank" rel="noopener">
-        <div class="zoomframe"><img src="img/media-copypaste.jpg" alt="Michel Ferreira, portrait"></div>
+      <a class="media-card" href="https://open.spotify.com/artist/4h20EEaSsJha8OKMiTfINg" target="_blank" rel="noopener noreferrer">
+        <div class="zoomframe"><img loading="lazy" decoding="async" width="640" height="640" src="img/media-copypaste.jpg" alt="Michel Ferreira, portrait"></div>
         <div class="media-label">Music · AI experiment</div>
-        <div class="media-card-title">The Copy Paste Club</div>
+        <div class="media-card-title"><span>The Copy Paste Club</span><span class="go" aria-hidden="true">↗</span></div>
       </a>
     </div>
   </section>
@@ -103,46 +122,84 @@
   </section>
 
 </div>
+</main>
 
 <footer class="site">
   <p class="fineprint">MULTIMICHEL © 1998–2026 MICHEL FERREIRA · SYDNEY, AUSTRALIA</p>
   <p class="social">
-    <a class="fineprint" href="https://www.linkedin.com/in/michelpferreira/" target="_blank" rel="noopener">LinkedIn</a>
-    <a class="fineprint" href="https://multimichel.medium.com/" target="_blank" rel="noopener">Medium</a>
+    <a class="fineprint" href="https://www.linkedin.com/in/michelpferreira/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+    <a class="fineprint" href="https://multimichel.medium.com/" target="_blank" rel="noopener noreferrer">Medium ↗</a>
     <a class="fineprint" href="contact.html">Contact</a>
   </p>
 </footer>
 
-<script src="content.js?v=19"></script>
-<script src="grid-overlay.js?v=19" defer></script>
+<script src="content.js?v=39"></script>
+<script src="nav.js?v=39" defer></script>
 <script>
 (function(){
   function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;")}
 
-  // Whole row is the click target — table-row behaviour, not just the title text.
-  function row(href, titleHtml, metaHtml){
+  // One row grammar for every list on this page:
+  //   [kicker]   status or category, its own line
+  //   Title            ↗   title left, action arrow at the right edge
+  //   metadata
+  // The arrow is a sibling of the title, never part of its text.
+  // See .row in multimichel.css.
+  function row(href, titleHtml, metaHtml, kickerHtml){
     var tag = href ? 'a' : 'div';
-    var openAttrs = href ? ' href="'+href+'" target="_blank" rel="noopener"' : '';
-    return '<'+tag+' class="row"'+openAttrs+'><span class="t">'+titleHtml+'</span><span class="m">'+metaHtml+'</span></'+tag+'>';
+    var openAttrs = href ? ' href="'+href+'"'+MM.linkAttrs(href) : '';
+    return '<'+tag+' class="row"'+openAttrs+'>'
+      + (kickerHtml ? '<span class="kicker-line">'+kickerHtml+'</span>' : '')
+      + '<span class="t">'+titleHtml+'</span>'
+      + MM.actionMark(href)
+      + '<span class="m">'+metaHtml+'</span>'
+      + '</'+tag+'>';
   }
 
-  // Writing — title + publication only.
-  var writing = MM.items.filter(function(i){return i.type==="Writing" && i.featured}).sort(function(a,b){return new Date(b.date||b.year)-new Date(a.date||a.year)});
-  document.getElementById("writing-list").innerHTML = writing.map(function(i){
-    return row(i.url, esc(i.title), esc(i.source));
+  // Writing is EDITORIALLY curated, not sorted by recency. These three show
+  // continuity across the career — an independent publication, a company Michel
+  // worked for, and the same practice a decade earlier. Fast ≠ Good is
+  // deliberately absent: it already owns the quote feature directly above.
+  // Home credits the PUBLICATION — who put the piece out — and drops the
+  // platform it happens to be hosted on. The archive prints both. Same record,
+  // two contexts: publication + platform are real fields on the item, not a
+  // presentation-only override.
+  var writingPicks = ["w-dialects", "w-nba-bubble", "w-fries"];
+  document.getElementById("writing-list").innerHTML = writingPicks.map(function(id){
+    var i = MM.items.filter(function(x){return x.id===id})[0];
+    return i ? row(i.url, esc(i.title), esc(i.publication || i.platform || "")) : "";
   }).join("");
 
-  // Speaking — editorial event rows, upcoming first then reverse chronological.
-  var talks = MM.items.filter(function(i){return i.type==="Talk"});
+  // Speaking on Home is an edited selection, not the full archive: every
+  // upcoming talk/keynote/panel/workshop/webinar, plus past ones Michel has
+  // flagged featured. Past webinars never surface here — once they're over
+  // they live in the archive only. See archive.html for the complete record.
+  var speakingFormats = {talk:1, keynote:1, panel:1, workshop:1, webinar:1};
+  var talks = MM.items.filter(function(i){
+    if (i.type !== "Talk" || !speakingFormats[i.format]) return false;
+    if (i.status === "upcoming") return true;
+    return i.status === "past" && i.featured === true && i.format !== "webinar";
+  });
   talks.sort(function(a,b){
-    if(!!a.upcoming !== !!b.upcoming) return a.upcoming ? -1 : 1;
+    if ((a.status==="upcoming") !== (b.status==="upcoming")) return a.status==="upcoming" ? -1 : 1;
     return b.year-a.year;
   });
-  // Every talk shows city · when. Falls back to the year so no row is left
-  // date-less next to rows that have one.
+  // eventName is editorial — rendered exactly as stored, never rebuilt from
+  // eventName + location. talkTitle (when present) is the row title and
+  // eventName drops into the meta line instead; showLocation controls
+  // whether location is also shown there (off when it's baked into eventName,
+  // e.g. "UXCamp Melbourne", "CreativeMornings Sydney").
   document.getElementById("speaking-list").innerHTML = talks.map(function(i){
-    var meta = [i.upcoming ? '<span class="up">UPCOMING</span>' : null, i.city, i.date || i.year].filter(Boolean).join(" · ");
-    return row(i.url, esc(i.title), meta);
+    var title = i.talkTitle || i.eventName;
+    var metaParts = [];
+    if (i.talkTitle) metaParts.push(i.eventName);
+    if (i.showLocation && i.location) metaParts.push(i.location);
+    metaParts.push(i.date || i.year);
+    // Status gets its own line above the title — it is neither part of the
+    // title nor part of the metadata sentence. It disappears on its own the
+    // moment an event stops being "upcoming".
+    var kicker = i.status==="upcoming" ? '<span class="up">UPCOMING</span>' : null;
+    return row(i.url, esc(title), metaParts.filter(Boolean).join(" · "), kicker);
   }).join("");
 
   // Around the internet — interviews and appearances elsewhere, newest first.
