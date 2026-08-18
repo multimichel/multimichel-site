@@ -353,7 +353,28 @@ a.row:hover .go,a.row:focus-visible .go{color:var(--orange)}
 .lede a:hover,.lede a:focus-visible,
 .prose a:hover,.prose a:focus-visible,
 .aside-note-link:hover,.aside-note-link:focus-visible,
-.quote-source a:hover,.quote-source a:focus-visible{background-size:100% var(--pen-thickness-hover)}
+.quote-source a:hover,.quote-source a:focus-visible{
+  background-size:100% var(--pen-thickness-hover);
+  animation:pen-redraw var(--pen-draw-duration) var(--pen-draw-ease);
+}
+
+/* Re-drawing the stroke on hover needs an ANIMATION, not a transition: the
+   underline is already at full width at rest, so a transition has nothing to
+   move. A from-only keyframe runs 0 → the rule's own end value, and because it
+   is attached to :hover it replays on every hover rather than firing once. */
+@keyframes pen-redraw{
+  from{background-size:0 var(--pen-thickness-hover)}
+}
+
+/* The mark is not the motion. Reduced motion keeps the thickened stroke and
+   simply stops re-drawing it. */
+@media(prefers-reduced-motion:reduce){
+  .penline:hover,.penline:focus-visible,
+  .lede a:hover,.lede a:focus-visible,
+  .prose a:hover,.prose a:focus-visible,
+  .aside-note-link:hover,.aside-note-link:focus-visible,
+  .quote-source a:hover,.quote-source a:focus-visible{animation:none}
+}
 .penline:focus-visible,
 .lede a:focus-visible,
 .prose a:focus-visible,
@@ -637,47 +658,4 @@ footer.site{border-top:1px solid var(--rule-strong);margin-top:var(--space-96);p
   .row .t{line-height:var(--type-row-title-leading-mobile)}
 
   .media-grid{gap:var(--space-32)}
-}
-
-/* ---------- pen draw-on ----------
-   The at-rest underlines arrive by being drawn left-to-right, once, as they
-   enter the viewport. The stroke ends exactly where it already sat — only its
-   arrival changes — so the touch affordance built into .penline is untouched.
-
-   Progressive enhancement: this only engages when JS adds .js-pen to <html>.
-   Without JS the underline is simply present, as before. */
-.js-pen .penline,
-.js-pen .lede a,
-.js-pen .prose a,
-.js-pen .aside-note-link,
-.js-pen .quote-source a{
-  background-size:0 var(--pen-thickness);
-  transition:background-size var(--pen-draw-duration) var(--pen-draw-ease);
-}
-.js-pen .penline.is-drawn,
-.js-pen .lede a.is-drawn,
-.js-pen .prose a.is-drawn,
-.js-pen .aside-note-link.is-drawn,
-.js-pen .quote-source a.is-drawn{background-size:100% var(--pen-thickness)}
-
-/* Hover still thickens, and must beat the draw rule above on specificity. */
-.js-pen .penline.is-drawn:hover,.js-pen .penline.is-drawn:focus-visible,
-.js-pen .lede a.is-drawn:hover,.js-pen .lede a.is-drawn:focus-visible,
-.js-pen .prose a.is-drawn:hover,.js-pen .prose a.is-drawn:focus-visible,
-.js-pen .aside-note-link.is-drawn:hover,.js-pen .aside-note-link.is-drawn:focus-visible,
-.js-pen .quote-source a.is-drawn:hover,.js-pen .quote-source a.is-drawn:focus-visible{
-  background-size:100% var(--pen-thickness-hover);
-}
-
-/* Motion is the enhancement; the mark is not. Reduced motion keeps every
-   underline, it just stops drawing them. */
-@media(prefers-reduced-motion:reduce){
-  .js-pen .penline,
-  .js-pen .lede a,
-  .js-pen .prose a,
-  .js-pen .aside-note-link,
-  .js-pen .quote-source a{
-    background-size:100% var(--pen-thickness);
-    transition:none;
-  }
 }

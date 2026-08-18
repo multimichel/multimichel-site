@@ -7,39 +7,117 @@
   var btn = document.querySelector('.brand-menu');
   var panel = document.getElementById('mobile-nav');
   if (btn && panel) {
+    // Everything outside the menu that must not be reachable while it is open.
+    // <header> is excluded: the trigger itself lives there.
+    var outside = [document.getElementById('main'), document.querySelector('footer.site')]
+      .filter(Boolean);
+    var scrollY = 0;
+
     function isMobile(){
       return window.innerWidth <= 900;
     }
-    function closeMenu(){
-      btn.setAttribute('aria-expanded', 'false');
-      btn.setAttribute('aria-label', 'Open menu');
-      panel.classList.remove('is-open');
-      document.documentElement.style.overflow = '';
+
+    function focusables(){
+      return panel.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])');
     }
+
+    function setOutsideInert(on){
+      outside.forEach(function(el){
+        if (on) {
+          el.inert = true;                        // no focus, no pointer, no AT
+          el.setAttribute('aria-hidden', 'true'); // for engines without inert
+        } else {
+          el.inert = false;
+          el.removeAttribute('aria-hidden');
+        }
+      });
+    }
+
     function openMenu(){
+      // position:fixed on <html> alone still lets iOS scroll the page behind
+      // the panel, so the scroll position is pinned and restored by hand.
+      scrollY = window.scrollY || window.pageYOffset || 0;
       btn.setAttribute('aria-expanded', 'true');
       btn.setAttribute('aria-label', 'Close menu');
       panel.classList.add('is-open');
-      document.documentElement.style.overflow = 'hidden';
+      setOutsideInert(true);
+      document.body.style.position = 'fixed';
+      document.body.style.top = -scrollY + 'px';
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.width = '100%';
+      var first = focusables()[0];
+      if (first) first.focus();
     }
+
+    function closeMenu(opts){
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-label', 'Open menu');
+      panel.classList.remove('is-open');
+      setOutsideInert(false);
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.width = '';
+      // instant, never smooth: html has scroll-behavior:smooth, which turns
+      // restoring a locked position into a visible animated jump (and reads
+      // back as 0 until it finishes).
+      window.scrollTo({top: scrollY, left: 0, behavior: 'instant'});
+      // Focus returns to the trigger — except when a menu link was followed,
+      // where the browser is already navigating and stealing focus is wrong.
+      if (!(opts && opts.silent)) btn.focus();
+    }
+
+    function isOpen(){
+      return btn.getAttribute('aria-expanded') === 'true';
+    }
+
     btn.addEventListener('click', function(){
       if (!isMobile()) return;
-      var isOpen = btn.getAttribute('aria-expanded') === 'true';
-      if (isOpen) closeMenu(); else openMenu();
+      if (isOpen()) closeMenu(); else openMenu();
     });
+
     panel.addEventListener('click', function(e){
-      if (e.target.tagName === 'A') closeMenu();
+      if (e.target.tagName === 'A') closeMenu({silent:true});
     });
+
     document.addEventListener('keydown', function(e){
-      if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') closeMenu();
+      if (!isOpen()) return;
+
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeMenu();
+        return;
+      }
+
+      if (e.key !== 'Tab') return;
+
+      // Focus trap. inert already blocks the rest of the page, but Tab can
+      // still reach browser chrome and the trigger, so the cycle is closed
+      // explicitly across the panel plus its trigger.
+      var items = Array.prototype.slice.call(focusables());
+      items.push(btn);
+      if (!items.length) return;
+      var first = items[0];
+      var last = items[items.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     });
+
     function syncMenuMode(){
       var mobile = isMobile();
       btn.disabled = !mobile;
       if (mobile) btn.removeAttribute('aria-hidden');
       else {
         btn.setAttribute('aria-hidden', 'true');
-        if (btn.getAttribute('aria-expanded') === 'true') closeMenu();
+        if (isOpen()) closeMenu({silent:true});
       }
     }
     window.addEventListener('resize', syncMenuMode);
