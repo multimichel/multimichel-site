@@ -11,6 +11,8 @@ body.dark .mobile-nav a{color:var(--dark-dim)}
 body.dark .mobile-nav.is-open{background:var(--dark-bg)}
 body.dark footer.site{border-top-color:var(--dark-rule)}
 body.dark .fineprint{color:var(--dark-dim)}
+body.dark .social-icon{color:var(--dark-dim)}
+body.dark .social-icon:hover,body.dark .social-icon:focus-visible{color:var(--orange);background:transparent}
 body.dark .fineprint a{color:var(--dark-ink);border-bottom:1px solid var(--orange)}
 
 /* Case-study back link — a compact navigation label, not an editorial row,
@@ -71,5 +73,4 @@ body.dark .fineprint a{color:var(--dark-ink);border-bottom:1px solid var(--orang
 
 @media(max-width:800px){
   .cs .imgrid.cols-2,.cs .imgrid.cols-3{grid-template-columns:1fr}
-  .cs figure.full.bleed{margin-right:calc(-1 * (var(--rail-width) + var(--space-16)))}
 }

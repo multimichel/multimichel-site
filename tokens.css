@@ -64,11 +64,11 @@
   --type-label-size: 13px;
   --type-label-leading: 1.5;
   --type-label-tracking: 1.3px;
-  /* Optical compensation for Agrandir: capHeight 720 of ascent 750 means the
-     caps sit 0.11em high inside their line box. Doubled, because vertical
-     centring halves it. Scales with font-size, so one value serves the 13px
-     section label and the 24px masthead alike. */
-  --cap-optical-shift: 0.22em;
+  /* Pen underline: rem, never em. As an em the same declaration produced a
+     4.4px stroke on a 13px label and 8.2px on 24px prose — one treatment,
+     three thicknesses. */
+  --pen-thickness: 0.34rem;
+  --pen-thickness-hover: 0.42rem;
 
   /* Hero — serif Heavy/Black */
   --type-hero-size: 148px;
@@ -237,4 +237,13 @@
   --measure: 720px;        /* running prose measure (~70ch at 24px) */
   --measure-form: 560px;   /* form column — narrower than prose on purpose */
   --type-field-size: 20px; /* input text: large enough to feel authored, not admin */
+}
+
+/* ---------- PEN DRAW-ON ----------
+   The underline arrives by being drawn rather than appearing. Timing is
+   hand-paced, not mechanical: a touch of overshoot at the start and a slower
+   settle, the way a stroke actually lands. */
+:root{
+  --pen-draw-duration: 480ms;
+  --pen-draw-ease: cubic-bezier(.22,.9,.3,1);
 }

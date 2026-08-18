@@ -42,7 +42,7 @@ b,strong{font-weight:700}
    without nesting interactive elements. */
 header.site{display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:var(--space-32)}
 .brand{display:flex;align-items:center}
-.brand-link{padding-top:var(--cap-optical-shift);font-family:var(--font-label);font-weight:900;font-size:var(--type-masthead-size);line-height:var(--type-masthead-leading);letter-spacing:var(--type-masthead-tracking);color:var(--masthead);text-transform:uppercase}
+.brand-link{text-box:trim-both cap alphabetic;font-family:var(--font-label);font-weight:900;font-size:var(--type-masthead-size);line-height:var(--type-masthead-leading);letter-spacing:var(--type-masthead-tracking);color:var(--masthead);text-transform:uppercase}
 /* The header square rides the SAME marker rail as every .sechead .tab:
    both resolve to --block-inset from the page edge, so the square hangs
    out of the content column exactly as the section markers do. Margin is
@@ -195,8 +195,30 @@ figcaption,.cap{font-family:var(--font-grotesk);font-weight:500;font-size:var(--
    centring alone leaves the label reading high against the square. The padding
    is exactly twice that, because centring halves whatever is added. Metric
    compensation applied once in the shared component, not a per-section nudge. */
-.sechead h2{padding-top:var(--cap-optical-shift);font-family:var(--font-label);font-weight:900;font-size:var(--type-label-size);line-height:var(--type-label-leading);letter-spacing:var(--type-label-tracking);color:var(--muted);text-transform:uppercase}
-.sechead .more{margin-left:auto;font-family:var(--font-label);font-weight:900;font-size:var(--type-label-size);letter-spacing:1.1px;color:var(--dim);text-transform:uppercase}
+/* Label and action share ONE type definition — same face, size, leading,
+   tracking and colour — so the pair sits on a single optical line. Only the
+   action's placement differs.
+
+   text-box trims the line box down to cap-height/baseline, so the box the
+   browser centres IS the visible word. That removes the need for any
+   cap-height offset: align-items:center now centres what you actually see.
+   Browsers without text-box fall back to the untrimmed box, which is the
+   behaviour this had before — never worse. */
+.sechead h2,.sechead .more{
+  font-family:var(--font-label);
+  font-weight:900;
+  font-size:var(--type-label-size);
+  line-height:1;
+  text-box:trim-both cap alphabetic;
+  /* Symmetric: the underline needs room below the baseline (text-box trims the
+     box bottom TO the baseline), and equal padding top and bottom keeps the
+     caps dead-centre against the marker. */
+  padding:0.5rem 0;
+  letter-spacing:var(--type-label-tracking);
+  color:var(--muted);
+  text-transform:uppercase;
+}
+.sechead .more{margin-left:auto}
 
 
 /* ---------- editorial rows — ONE grammar, everywhere ----------
@@ -231,7 +253,8 @@ a.row{cursor:pointer}
    ground so #FF6C00 has a dark backdrop to sit on. Orange on paper is 2.6:1;
    orange on slate clears AA comfortably, so the brand colour is untouched and
    the contrast is solved by what sits behind it. */
-a.row:hover,a.row:focus-visible{background:var(--slate);outline:none}
+a.row:hover,a.row:focus-visible{background:var(--slate)}
+a.row:hover{outline:none}
 a.row:focus-visible{outline:2px solid var(--orange);outline-offset:-2px}
 .rowlist .row:first-child{border-top:1px solid var(--rule-light)}
 
@@ -319,7 +342,7 @@ a.row:hover .go,a.row:focus-visible .go{color:var(--orange)}
   background-image:url("img/pen-underline.svg");
   background-repeat:no-repeat;
   background-position:0 100%;
-  background-size:100% .34em;
+  background-size:100% var(--pen-thickness);
   padding-bottom:.14em;
   transition:background-size .15s ease;
 }
@@ -330,7 +353,7 @@ a.row:hover .go,a.row:focus-visible .go{color:var(--orange)}
 .lede a:hover,.lede a:focus-visible,
 .prose a:hover,.prose a:focus-visible,
 .aside-note-link:hover,.aside-note-link:focus-visible,
-.quote-source a:hover,.quote-source a:focus-visible{background-size:100% .42em}
+.quote-source a:hover,.quote-source a:focus-visible{background-size:100% var(--pen-thickness-hover)}
 .penline:focus-visible,
 .lede a:focus-visible,
 .prose a:focus-visible,
@@ -343,20 +366,23 @@ a.row:hover .go,a.row:focus-visible .go{color:var(--orange)}
    the orange arrives as the pen stroke underneath — the accent moves from the
    glyphs to the rule. Links that already show the stroke simply thicken it
    (see .penline); these three reveal it from zero. */
-nav.main a,.sechead .more,footer.site .social a{
+nav.main a,.sechead .more{
   background-image:url("img/pen-underline.svg");
   background-repeat:no-repeat;
   background-position:0 100%;
   background-size:100% 0;
-  padding-bottom:.14em;
   transition:background-size .15s ease;
 }
+/* Clearance is per-context and must NOT be set here: .sechead .more already
+   gets symmetric padding from the label rule above, and re-declaring
+   padding-bottom in this later rule silently overrode it — which is what put
+   the stroke back through the word. nav links are untrimmed, so they get their
+   own. */
+nav.main a{padding-bottom:.5rem}
 nav.main a:hover,nav.main a:focus-visible,
-.sechead .more:hover,.sechead .more:focus-visible,
-footer.site .social a:hover,footer.site .social a:focus-visible{background-size:100% .34em}
-nav.main a:focus-visible,.sechead .more:focus-visible,footer.site .social a:focus-visible{
-  outline:2px solid var(--ink);outline-offset:3px;
-}
+.sechead .more:hover,.sechead .more:focus-visible{background-size:100% var(--pen-thickness)}
+/* Outline is :focus-visible ONLY — never on hover, never at rest. */
+nav.main a:focus-visible,.sechead .more:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 
 .aside-note{margin-top:var(--space-32);font-family:var(--font-grotesk);font-size:var(--type-aside-size);color:var(--dim)}
 
@@ -390,7 +416,7 @@ figure.portrait img{width:100%;height:auto;aspect-ratio:auto;object-fit:contain}
   border-radius:0;-webkit-appearance:none;appearance:none;
 }
 .field textarea{resize:vertical;line-height:1.5}
-.field select{cursor:pointer;background-image:none}
+.field select{cursor:pointer}
 .field input:focus,.field textarea:focus,.field select:focus{outline:0;border-bottom-color:var(--orange)}
 .field input[aria-invalid="true"],.field textarea[aria-invalid="true"]{border-bottom-color:var(--orange)}
 .err{margin-top:var(--space-8);font-family:var(--font-grotesk);font-size:var(--type-row-meta-size);color:var(--orange)}
@@ -435,7 +461,10 @@ figure.portrait img{width:100%;height:auto;aspect-ratio:auto;object-fit:contain}
 
 /* ---------- work — two compact visual case studies, side by side.
    680×425 reference ratio (8:5), work-gap is a Figma value (24px). ---------- */
+/* Two across wherever two fit — same content-width logic as .media-grid.
+   Below 560px a single case-study cover would otherwise run full-bleed huge. */
 .work-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--work-gap);margin-top:0}
+@media(max-width:560px){.work-grid{grid-template-columns:1fr;gap:var(--space-48)}}
 .work-card{display:block}
 .work-card .zoomframe{aspect-ratio:680/425}
 .work-card .zoomframe img{width:100%;height:100%;object-fit:cover}
@@ -457,7 +486,11 @@ figure.portrait img{width:100%;height:auto;aspect-ratio:auto;object-fit:contain}
 .work-card:hover .work-card-title .brush{opacity:1}
 
 /* ---------- media — visual, real imagery, no embeds (outside Figma-node scope) ---------- */
+/* Three across wherever three fit. Below ~560px the content column can no
+   longer give each card a usable thumbnail, so it drops to one. Keyed to the
+   width the cards actually need, not to a device class. */
 .media-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-32)}
+@media(max-width:560px){.media-grid{grid-template-columns:1fr}}
 .media-card{display:block}
 .media-card .zoomframe{aspect-ratio:1/1}
 .media-card .zoomframe img{width:100%;height:100%;object-fit:cover}
@@ -474,9 +507,26 @@ figure.portrait img{width:100%;height:auto;aspect-ratio:auto;object-fit:contain}
 .media-card:hover .media-card-title{color:var(--orange)}
 
 /* ---------- footer (outside Figma-node scope) ---------- */
-footer.site{border-top:1px solid var(--rule-strong);margin-top:var(--space-96);padding:var(--space-32) var(--space-16) var(--space-48) calc(var(--content-start) - var(--rail-width));display:flex;flex-wrap:wrap;gap:var(--space-16);justify-content:space-between;align-items:center}
+/* ---------- footer social row ----------
+   Icon-only to keep the row compact. Bootstrap Icons (MIT) — one system, so
+   every mark shares the same 16px grid and solid weight; no brand colours, the
+   icons take the footer's own tan via currentColor. Each is a real link with
+   an aria-label, and the 44px tap target is padding, not visible size, so the
+   optical rhythm stays tight. */
+footer.site .social{display:flex;align-items:center;gap:var(--space-8);flex-wrap:wrap}
+.social-icon{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:var(--space-32);height:var(--space-32);
+  color:var(--muted);
+  border-radius:2px;
+  transition:color .15s ease,background-color .15s ease;
+}
+.social-icon svg{display:block}
+.social-icon:hover,.social-icon:focus-visible{color:var(--orange);background:var(--rule-light)}
+.social-icon:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+footer.site{border-top:1px solid var(--rule-strong);margin-top:var(--space-96);padding:var(--space-32) var(--content-inset) var(--space-48) var(--content-inset);display:flex;flex-wrap:wrap;gap:var(--space-16);justify-content:space-between;align-items:center}
 .fineprint{font-family:var(--font-grotesk);font-weight:500;font-size:var(--type-label-size);color:var(--muted)}
-footer.site .social a{margin-left:var(--space-16)}
 
 
 @media(prefers-reduced-motion:reduce){
@@ -513,9 +563,6 @@ footer.site .social a{margin-left:var(--space-16)}
     --type-masthead-leading:24px;
     --intro-max-width:100%;
   }
-  /* Mobile keeps its original right inset: at this scale the 8px difference
-     reads as even, and this is the version already signed off. */
-  .wrap,header.site{padding-right:var(--space-16)}
   header.site{flex-direction:row;align-items:center;justify-content:flex-start;gap:var(--space-16);padding-bottom:var(--space-24-m);position:relative;z-index:50}
   .brand{position:relative;z-index:41}
 
@@ -589,7 +636,48 @@ footer.site .social a{margin-left:var(--space-16)}
      Size is unchanged — only the leading tightens. */
   .row .t{line-height:var(--type-row-title-leading-mobile)}
 
-  .work-grid{grid-template-columns:1fr;gap:var(--space-48)}
-  .media-grid{grid-template-columns:1fr;gap:var(--space-32)}
-  footer.site{padding-left:calc(var(--content-start) - var(--rail-width));padding-bottom:var(--space-48)}
+  .media-grid{gap:var(--space-32)}
+}
+
+/* ---------- pen draw-on ----------
+   The at-rest underlines arrive by being drawn left-to-right, once, as they
+   enter the viewport. The stroke ends exactly where it already sat — only its
+   arrival changes — so the touch affordance built into .penline is untouched.
+
+   Progressive enhancement: this only engages when JS adds .js-pen to <html>.
+   Without JS the underline is simply present, as before. */
+.js-pen .penline,
+.js-pen .lede a,
+.js-pen .prose a,
+.js-pen .aside-note-link,
+.js-pen .quote-source a{
+  background-size:0 var(--pen-thickness);
+  transition:background-size var(--pen-draw-duration) var(--pen-draw-ease);
+}
+.js-pen .penline.is-drawn,
+.js-pen .lede a.is-drawn,
+.js-pen .prose a.is-drawn,
+.js-pen .aside-note-link.is-drawn,
+.js-pen .quote-source a.is-drawn{background-size:100% var(--pen-thickness)}
+
+/* Hover still thickens, and must beat the draw rule above on specificity. */
+.js-pen .penline.is-drawn:hover,.js-pen .penline.is-drawn:focus-visible,
+.js-pen .lede a.is-drawn:hover,.js-pen .lede a.is-drawn:focus-visible,
+.js-pen .prose a.is-drawn:hover,.js-pen .prose a.is-drawn:focus-visible,
+.js-pen .aside-note-link.is-drawn:hover,.js-pen .aside-note-link.is-drawn:focus-visible,
+.js-pen .quote-source a.is-drawn:hover,.js-pen .quote-source a.is-drawn:focus-visible{
+  background-size:100% var(--pen-thickness-hover);
+}
+
+/* Motion is the enhancement; the mark is not. Reduced motion keeps every
+   underline, it just stops drawing them. */
+@media(prefers-reduced-motion:reduce){
+  .js-pen .penline,
+  .js-pen .lede a,
+  .js-pen .prose a,
+  .js-pen .aside-note-link,
+  .js-pen .quote-source a{
+    background-size:100% var(--pen-thickness);
+    transition:none;
+  }
 }
