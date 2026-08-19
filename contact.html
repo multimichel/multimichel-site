@@ -7,8 +7,10 @@
 <meta name="description" content="Speaking, workshops, mentoring, or just to say olá. Get in touch with Michel Ferreira.">
 <meta property="og:title" content="Contact — Michel Ferreira">
 <meta property="og:description" content="Speaking, workshops, mentoring, or just to say olá.">
-<link rel="stylesheet" href="tokens.css?v=52">
-<link rel="stylesheet" href="multimichel.css?v=52">
+<link rel="preload" href="fonts/family-heavy.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/FoundersGrotesk-Regular.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="tokens.css?v=61">
+<link rel="stylesheet" href="multimichel.css?v=61">
 <link rel="canonical" href="https://multimichel.com/contact">
 <meta property="og:image" content="https://multimichel.com/img/og-default.jpg">
 <meta property="og:image:width" content="1200">
@@ -124,7 +126,7 @@
   </nav>
 </footer>
 
-<script src="nav.js?v=53" defer></script>
+<script src="nav.js?v=61" defer></script>
 <script>
 (function(){
   // Submits through FormSubmit's AJAX endpoint so the visitor never leaves the
@@ -170,12 +172,23 @@
       return;
     }
 
+    // The hidden _subject/_template/_honey inputs only travel on the non-JS
+    // fallback post. The AJAX path builds its own body, so it has to carry them
+    // too — otherwise every emailed message arrives with FormSubmit's default
+    // subject and with the spam trap silently switched off.
     var data = {
       name: form.elements.name.value.trim(),
       email: form.elements.email.value.trim(),
       topic: form.elements.topic.value,
-      message: form.elements.message.value.trim()
+      message: form.elements.message.value.trim(),
+      _subject: form.elements._subject.value,
+      _template: form.elements._template.value,
+      _captcha: form.elements._captcha.value,
+      _honey: form.elements._honey.value
     };
+
+    // A filled honeypot means a bot: accept silently rather than tell it why.
+    if (data._honey) { status.textContent = 'Sent. I\u2019ll get back to you.'; form.reset(); return; }
 
     var btn = form.querySelector('.submit');
     btn.disabled = true;
